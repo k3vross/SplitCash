@@ -1,0 +1,74 @@
+
+ .header {
+     display: flex;
+     margin-top: 25px;
+     justify-content: space-between;
+ }
+
+ .logoTitle {
+     display: flex;
+     text-decoration: none;
+     margin-left: 175px;
+ }
+
+ .greeting {
+     margin-right: 175px;
+ }
+
+ .logo {
+     max-width: 50px;
+     max-height: 35px;
+ }
+
+ .title {
+     font-family: sans-serif;
+     font-size: 20px;
+     color: #2d3937;
+     padding: 10px;
+     margin-top: 0;
+     letter-spacing: .15ch;
+ }
+
+ .greetingBtn {
+     display: flex;
+     justify-content: space-between;
+     padding: 10px;
+     right: 200px
+ }
+
+ .signup {
+    background-color: #1cc29f;
+    box-shadow: 0 2px 0 #15977b;
+    color: white;
+    position: relative;
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 700px;
+    max-height: 50px;
+    text-decoration: none;
+    padding: 5px;
+    margin: 0 10px 0 10px;
+    border-radius: 5px;
+    justify-content: flex-end;
+
+}
+
+.login {
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #1cc29f;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 5px 10px 0 10px;
+    justify-content: flex-end;
+}
+
+.signup:hover {
+  background-color: #15977b;
+  cursor: pointer;
+}
+
+.login:hover {
+    cursor: pointer;
+    color: #15977b;
+}

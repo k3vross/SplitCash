@@ -11,15 +11,15 @@ class Greeting extends React.Component {
     return (
       <div className='greeting'>
         {this.props.currentUser ?
-          <div>
-            <h3>Welcome {this.props.currentUser.username}</h3>
-            <button onClick={this.props.logout}>Log Out</button>
+          <div className='greetingName'>
+            <h3 className='user'>{this.props.currentUser.username}</h3>
+            <button className='logout' onClick={this.props.logout}>Log Out</button>
           </div>
           :
-          <div>
-            <Link className="btn" to="/signup">Sign Up</Link>
+          <div className='greetingBtn'>
+            <Link className="login" to="/login">Log in</Link>
             <br />
-            <Link className="btn" to="/login">Log In</Link>
+            <Link className="signup" to="/signup">Sign up</Link>
           </div>}
       </div>
     )

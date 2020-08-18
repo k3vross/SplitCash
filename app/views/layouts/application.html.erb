@@ -4,9 +4,13 @@
     <title>Splitcash</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
+    <script type="text/javascript">
+      window.images = {
+        logo: "<%= image_url('sc_logo.png') %>"
+      }
+    </script>
   </head>
 
   <body>

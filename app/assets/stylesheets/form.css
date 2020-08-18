@@ -1,0 +1,15 @@
+.formLogo {
+    max-width: 200px;
+    max-height: 1205px;
+}
+
+.formTitle{
+    text-align: center;
+    font-family: sans-serif;
+    color: #2d3937;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+}
