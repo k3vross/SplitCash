@@ -47,44 +47,33 @@ class SessionForm extends React.Component {
     render() {
         return (
             <div>
-                <h4 className="formTitle">{this.props.formType === 'Login' ? <p className="formTitle">Log In</p> : <p className="formTitle">INTRODUCE YOURSELF</p>}</h4>
+                <h4 className="formTitle">{this.props.formType === 'Login' ? <p className="formTitle">LOG IN</p> : <p className="formTitle">INTRODUCE YOURSELF</p>}</h4>
                 <div className="form">
                     <img className="formLogo" src={window.images.logo} alt="SplitCash"/>
                     <form className="sessionForm" onSubmit={this.handleSubmit}>
-                        <label>Username:
-                            <input type="text" value={this.state.username} onChange={this.update('username')}/>
+                        <label className='usernameLabel'>{this.props.formType === 'Signup' ? <p>Create a <strong>Username:</strong></p> : <p>Enter your <strong>Username:</strong></p>}
+                            <input className='usernameField' type="text" value={this.state.username} onChange={this.update('username')}/>
                         </label>
                         <br/>
                         <br/>
                         {this.props.formType === 'Signup' ?
                             (<div>
-                                <label>Email:
-                                <input type="text" value={this.state.email} onChange={this.update("email")} />
+                                <label className='emailLabel'>What is your <strong>Email?</strong>
+                                <input className='emailField' type="text" value={this.state.email} onChange={this.update("email")} />
                                 </label>
                                 <br/>
                                 <br/>
                             </div>) : null}
-                        <label>Password:
-                            <input type="password" value={this.state.password} onChange={this.update('password')} />
+                        <label className='passwordLabel'>{this.props.formType === 'Signup' ? <p>Create a <strong>Password:</strong></p> : <p>Enter your <strong>Password:</strong></p>}
+                            <input className='passwordField' type="password" value={this.state.password} onChange={this.update('password')} />
                         </label>
                         <br/>
                         <br/>
-                        <button>{this.props.formType}</button>
+                        <button className='formSubmit'>{this.props.formType === 'Signup' ? <p>Sign me up!</p> : <p>Log me in!</p>}</button>
                     </form>
                 </div>
                 <br/>
-                {this.props.formType === 'Login' ?
-                    (<div>
-                        <p>Haven't signed up?</p>
-                        <Link to="/signup">Sign Up Here</Link>
-                    </div>)
-                    :
-                    (<div>
-                        <p>Already signed up?</p>
-                        <Link to="/login">Log In Here</Link>
-                    </div>)
-                }
-                <div>
+                <div className='errors'>
                     {this.renderErrors()}
                 </div>
             </div>

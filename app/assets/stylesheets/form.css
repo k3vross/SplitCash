@@ -1,15 +1,84 @@
 .formLogo {
-    max-width: 200px;
-    max-height: 1205px;
+    max-width: 300px;
+    max-height: 175px;
 }
 
 .formTitle{
     text-align: center;
     font-family: sans-serif;
-    color: #2d3937;
+    color: #737473;
+    margin-top: 50px;
 }
 
 .form {
     display: flex;
     justify-content: center;
+    font-family: sans-serif;
+    color: #2d3937; 
+}
+
+.formLogo {
+    margin: 20px;
+}
+
+.sessionForm {
+    margin: 20px;
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #1cc29f;
+    box-shadow: 0 0 10px #1cc29f;
+}
+
+input, label {
+    display: block;
+}
+
+.errors {
+    color: #2d3937;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.usernameField {
+    height: 50px;
+    width: 300px;
+    font-size: 25px;
+    color: #2d3937;
+    font-weight: 700px;
+}
+
+.usernameLabel {
+    font-size: 20px;
+}
+
+.emailField {
+    font-size: 18px;
+    height: 40px;
+    width: 300px;
+}
+
+.passwordField {
+    font-size: 18px;
+    height: 40px;
+    width: 300px;
+}
+
+.formSubmit {
+    font-size: 24px;
+    background: #ff652f;
+    border-radius: 5px;
+    color: white;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.05);
+}
+
+input {
+    margin-top: 5px;
+}
+
+strong {
+    font-weight: 700;
 }
