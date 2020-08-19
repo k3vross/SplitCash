@@ -9,10 +9,40 @@
      display: flex;
      text-decoration: none;
      margin-left: 225px;
+     align-self: flex-end;
  }
 
  .greeting {
      margin-right: 225px;
+     font-family: sans-serif;
+     font-size: 14px;
+     color: #3b4443;
+ }
+
+ .greetingName {
+     display: flex;
+     font-size: 18px;
+ }
+
+ .user {
+     margin: 5px 5px 5px 5px;
+     font-weight: bold;
+     align-self: center;
+ }
+
+ .logout {
+    background-color: #1cc29f;
+    box-shadow: 0 2px 0 #15977b;
+    color: white;
+    position: relative;
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 700px;
+    max-height: 75px;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 5px 5px 5px;
  }
 
  .logo {
@@ -33,7 +63,6 @@
  .greetingBtn {
      display: flex;
      justify-content: space-between;
-     padding: 10px;
      right: 200px
  }
 
@@ -47,10 +76,9 @@
     font-weight: 700px;
     max-height: 75px;
     text-decoration: none;
-    padding: 5px;
-    margin: 0 10px 0 10px;
+    padding: 8px;
     border-radius: 5px;
-    justify-content: flex-end;
+    margin: 5px 5px 5px 5px;
 }
 
 .login {
@@ -59,11 +87,11 @@
     color: #1cc29f;
     font-size: 15px;
     font-weight: 700;
-    margin: 5px 10px 0 10px;
-    justify-content: flex-end;
+    margin: 5px 5px 5px 5px;
+    align-self: center;
 }
 
-.signup:hover {
+.logout:hover, .signup:hover {
   background-color: #15977b;
   cursor: pointer;
 }

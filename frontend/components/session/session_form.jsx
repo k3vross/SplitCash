@@ -13,6 +13,7 @@ class SessionForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.update = this.update.bind(this);
         this.renderErrors = this.renderErrors.bind(this);
+        this.loginDemo = this.loginDemo.bind(this)
     }
 
     handleSubmit(e) {
@@ -44,9 +45,14 @@ class SessionForm extends React.Component {
         return e => this.setState({[field]: e.currentTarget.value});
     }
 
+    loginDemo() {
+        this.setState({username: 'demoUser', password: '123456'})
+        this.props.processForm(user).then(() => this.props.history.push('/'));
+    }
+
     render() {
         return (
-            <div>
+            <div className="fullForm">
                 <h4 className="formTitle">{this.props.formType === 'Login' ? <p className="formTitle">LOG IN</p> : <p className="formTitle">INTRODUCE YOURSELF</p>}</h4>
                 <div className="form">
                     <img className="formLogo" src={window.images.logo} alt="SplitCash"/>
@@ -70,6 +76,7 @@ class SessionForm extends React.Component {
                         <br/>
                         <br/>
                         <button className='formSubmit'>{this.props.formType === 'Signup' ? <p>Sign me up!</p> : <p>Log me in!</p>}</button>
+                        {this.props.formType === 'Login' ? <button className="demoBtn" onClick={this.loginDemo}>Demo login</button> : null}
                     </form>
                 </div>
                 <br/>

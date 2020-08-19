@@ -181,6 +181,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _session_login_form_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./session/login_form_container */ "./frontend/components/session/login_form_container.js");
 /* harmony import */ var _session_signup_form_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./session/signup_form_container */ "./frontend/components/session/signup_form_container.js");
 /* harmony import */ var _util_route_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/route_util */ "./frontend/util/route_util.jsx");
+/* harmony import */ var _header_header__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./header/header */ "./frontend/components/header/header.jsx");
+
 
 
 
@@ -189,18 +191,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-    className: "header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "#",
-    className: "logoTitle"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    className: "logo",
-    src: window.images.logo,
-    alt: "SplitCash"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "title"
-  }, "SplitCash")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_greeting_greeting_container__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_5__["AuthRoute"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    exact: true,
+    path: "/",
+    component: _header_header__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_5__["AuthRoute"], {
     path: "/login",
     component: _session_login_form_container__WEBPACK_IMPORTED_MODULE_3__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_5__["AuthRoute"], {
@@ -323,6 +318,40 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_greeting__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/header/header.jsx":
+/*!***********************************************!*\
+  !*** ./frontend/components/header/header.jsx ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../greeting/greeting_container */ "./frontend/components/greeting/greeting_container.jsx");
+
+
+
+var Header = function Header() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+    className: "header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "#",
+    className: "logoTitle"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "logo",
+    src: window.images.logo,
+    alt: "SplitCash"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "title"
+  }, "SplitCash")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Header);
 
 /***/ }),
 
@@ -454,6 +483,7 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.renderErrors = _this.renderErrors.bind(_assertThisInitialized(_this));
+    _this.loginDemo = _this.loginDemo.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -501,9 +531,24 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "loginDemo",
+    value: function loginDemo() {
+      var _this4 = this;
+
+      this.setState({
+        username: 'demoUser',
+        password: '123456'
+      });
+      this.props.processForm(user).then(function () {
+        return _this4.props.history.push('/');
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "fullForm"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
         className: "formTitle"
       }, this.props.formType === 'Login' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "formTitle"
@@ -541,7 +586,10 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
         onChange: this.update('password')
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "formSubmit"
-      }, this.props.formType === 'Signup' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sign me up!") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Log me in!")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.formType === 'Signup' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Sign me up!") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Log me in!")), this.props.formType === 'Login' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "demoBtn",
+        onClick: this.loginDemo
+      }, "Demo login") : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "errors"
       }, this.renderErrors()));
     }

@@ -61,10 +61,10 @@ button {
 	font-size:13px;
 	font-family:Arial;
 }
-input:focus
-{
+input:focus {
 	outline:0;
 }
+
 button:focus {
 	outline: 0;
 }
