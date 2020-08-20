@@ -3,7 +3,9 @@ import ReactDOM from "react-dom";
 import configureStore from "./store/store";
 import Root from './components/root';
 import { postUser, postSession, deleteSession } from './util/session_api_util';
-import { login, signup, logout } from './actions/session_actions'
+import { login, signup, logout, requestAllUsers } from './actions/session_actions';
+import { postRequest, deleteRequest } from './util/friend_request_api_util';
+import { sendRequest, clearRequest } from './actions/friend_actions';
 
 document.addEventListener("DOMContentLoaded", () => {
   let store;
@@ -30,6 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
     window.postUser = postUser;
     window.postSession = postSession;
     window.deleteSession = deleteSession;
+    window.postRequest = postRequest;
+    window.deleteRequest = deleteRequest;
+    window.sendRequest = sendRequest;
+    window.clearRequest = clearRequest;
+    window.requestAllUsers = requestAllUsers;
   //test
 
   ReactDOM.render(<Root store={store}/>, root);

@@ -3,15 +3,23 @@
 
 export const postUser = (user) => {
   return $.ajax({
-    url: "api/users",
+    url: "/api/users",
     method: "POST",
     data: { user }
   })
 }
 
+export const fetchAllUsers = () => {
+  return $.ajax({
+    url: '/api/users',
+    method: 'GET'
+
+  })
+}
+
 export const postSession = (user) => {
   return $.ajax({
-    url: 'api/session',
+    url: '/api/session',
     method: 'POST',
     data: { user }
   })
@@ -19,7 +27,7 @@ export const postSession = (user) => {
 
 export const deleteSession = () => {
   return $.ajax({
-    url: 'api/session',
+    url: '/api/session',
     method: 'DELETE'
   })
 }

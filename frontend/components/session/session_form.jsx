@@ -47,7 +47,8 @@ class SessionForm extends React.Component {
 
     loginDemo() {
         this.setState({username: 'demoUser', password: '123456'})
-        this.props.processForm(user).then(() => this.props.history.push('/'));
+        const demo = { username: 'demoUser', password: '123456' }
+        this.props.processForm(demo).then(() => this.props.history.push('/'));
     }
 
     render() {
@@ -55,13 +56,16 @@ class SessionForm extends React.Component {
             <div className="fullForm">
                 <h4 className="formTitle">{this.props.formType === 'Login' ? <p className="formTitle">LOG IN</p> : <p className="formTitle">INTRODUCE YOURSELF</p>}</h4>
                 <div className="form">
-                    <img className="formLogo" src={window.images.logo} alt="SplitCash"/>
+                    <a href="#">
+                        <img className='formLogo' src={window.images.logo} alt="SplitCash" />
+                    </a>
                     <form className="sessionForm" onSubmit={this.handleSubmit}>
                         <label className='usernameLabel'>{this.props.formType === 'Signup' ? <p>Create a <strong>Username:</strong></p> : <p>Enter your <strong>Username:</strong></p>}
                             <input className='usernameField' type="text" value={this.state.username} onChange={this.update('username')}/>
                         </label>
                         <br/>
                         <br/>
+                        <div className='hiddenInput'>
                         {this.props.formType === 'Signup' ?
                             (<div>
                                 <label className='emailLabel'>What is your <strong>Email?</strong>
@@ -70,19 +74,20 @@ class SessionForm extends React.Component {
                                 <br/>
                                 <br/>
                             </div>) : null}
-                        <label className='passwordLabel'>{this.props.formType === 'Signup' ? <p>Create a <strong>Password:</strong></p> : <p>Enter your <strong>Password:</strong></p>}
-                            <input className='passwordField' type="password" value={this.state.password} onChange={this.update('password')} />
-                        </label>
+                            <label className='passwordLabel'>{this.props.formType === 'Signup' ? <p>Create a <strong>Password:</strong></p> : <p>Enter your <strong>Password:</strong></p>}
+                                <input className='passwordField' type="password" value={this.state.password} onChange={this.update('password')} />
+                            </label>
+                        </div>
                         <br/>
                         <br/>
                         <button className='formSubmit'>{this.props.formType === 'Signup' ? <p>Sign me up!</p> : <p>Log me in!</p>}</button>
                         {this.props.formType === 'Login' ? <button className="demoBtn" onClick={this.loginDemo}>Demo login</button> : null}
+                        <div className='errors'>
+                            {this.renderErrors()}
+                        </div>
                     </form>
                 </div>
                 <br/>
-                <div className='errors'>
-                    {this.renderErrors()}
-                </div>
             </div>
         )
     }
