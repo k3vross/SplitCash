@@ -19,7 +19,7 @@ class User < ApplicationRecord
     foreign_key: :requester_id,
     class_name: :Friend
 
-  has_one :recipient,
+  has_many :recipients,
     foreign_key: :recipient_id,
     class_name: :Friend
 
@@ -27,6 +27,11 @@ class User < ApplicationRecord
   attr_reader :password
 
   after_initialize :ensure_session_token
+
+  def all_friends
+    friends = self.requesters + self.recipients
+    friends.pluck(:id)
+  end
 
   def self.find_by_credentials(username, password)
     user = User.find_by(username: username)

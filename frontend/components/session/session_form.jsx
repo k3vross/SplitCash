@@ -22,7 +22,7 @@ class SessionForm extends React.Component {
         this.setState({username: ''});
         this.setState({password: ''});
         this.setState({email: ''});
-        this.props.processForm(user).then(() => this.props.history.push('/'));
+        this.props.processForm(user).then(() => this.props.history.push('/dashboard'));
     }
 
     renderErrors() {
@@ -48,7 +48,7 @@ class SessionForm extends React.Component {
     loginDemo() {
         this.setState({username: 'demoUser', password: '123456'})
         const demo = { username: 'demoUser', password: '123456' }
-        this.props.processForm(demo).then(() => this.props.history.push('/'));
+        this.props.processForm(demo).then(() => this.props.history.push('/dashboard'));
     }
 
     render() {

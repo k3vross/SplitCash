@@ -1,4 +1,4 @@
-import { RECEIVE_REQUEST, REMOVE_REQUEST } from "../actions/friend_actions";
+import { RECEIVE_REQUEST, DELETE_REQUEST, RECEIVE_ALL_REQUESTS } from "../actions/friend_actions";
 
 
 const requestReducer = (oldState = {}, action) => {
@@ -7,7 +7,9 @@ const requestReducer = (oldState = {}, action) => {
     switch (action.type) {
         case RECEIVE_REQUEST:
             return newState[action.request.id] = action.request
-        case REMOVE_REQUEST:
+        case RECEIVE_ALL_REQUESTS:
+            return action.payload.friendships
+        case DELETE_REQUEST:
             delete newState[action.requestId]
             return newState
         default:

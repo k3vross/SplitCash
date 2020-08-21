@@ -12,8 +12,16 @@ class Api::FriendsController < ApplicationController
 
     end
 
-    def update
-        
+    def index
+        friendIds = []
+        @friendships = Friend.find(params[:requestIds])
+        @friendships.each do |friendship|
+            friendIds.concat([friendship.requester_id])
+            friendIds.concat([friendship.recipient_id])
+        end
+        friendIds = friendIds.uniq
+        friendIds.delete(current_user.id)
+        @friends = User.find(friendIds)
     end
 
     def destroy
