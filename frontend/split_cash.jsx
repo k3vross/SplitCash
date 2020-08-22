@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import configureStore from "./store/store";
 import Root from './components/root';
 import { postUser, postSession, deleteSession } from './util/session_api_util';
-import { login, signup, logout, requestAllUsers } from './actions/session_actions';
+import { login, signup, logout } from './actions/session_actions';
 import { postRequest, deleteRequest, fetchRequests} from './util/friend_request_api_util';
 import { sendRequest, clearRequest, getAllRequests  } from './actions/friend_actions';
 
@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.deleteRequest = deleteRequest;
     window.sendRequest = sendRequest;
     window.clearRequest = clearRequest;
-    window.requestAllUsers = requestAllUsers;
     window.fetchRequests = fetchRequests;
     window.getAllRequests = getAllRequests;
   //test

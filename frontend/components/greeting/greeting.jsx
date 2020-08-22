@@ -5,6 +5,11 @@ import { Link } from 'react-router-dom';
 class Greeting extends React.Component {
   constructor(props) {
     super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick() {
+    this.props.logout().then(() => this.props.history.push('/'));
   }
 
   render() {
@@ -13,7 +18,7 @@ class Greeting extends React.Component {
         {this.props.currentUser ?
           <div className='greetingName'>
             <h3 className='user'>{this.props.currentUser.username}</h3>
-            <button className='logout' onClick={this.props.logout}>Log Out</button>
+            <button className='logout' onClick={this.handleClick}>Log Out</button>
           </div>
           :
           <div className='greetingBtn'>

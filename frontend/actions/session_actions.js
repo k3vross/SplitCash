@@ -13,11 +13,6 @@ const receiveCurrentUser = (user) => {
   }
 }
 
-const receiveAllUsers = users => ({
-  type: RECEIVE_ALL_USERS,
-  users
-})
-
 const logoutCurrentUser = () => {
   return {
     type: LOGOUT_CURRENT_USER
@@ -37,10 +32,7 @@ export const clearSessionErrors = () => {
   }
 }
 
-export const requestAllUsers = () => dispatch => {
-  return fetchAllUsers()
-    .then(users => dispatch(receiveAllUsers(users)))
-}
+
 
 export const login = (user) => (dispatch) => {
   return postSession(user).then((user) => {

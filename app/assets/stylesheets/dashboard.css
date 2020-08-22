@@ -1,0 +1,131 @@
+.dashBoard {
+    display: block;
+    width: 100%;
+}
+.leftSide {
+    display: flex;
+    flex-direction: column;
+    float: left;
+    width: 25%;
+    text-align: center;
+    margin-top: 12px;
+    align-items: flex-start;
+    margin-left: 80px;
+}
+
+.dashboardLink {
+    font-family: sans-serif;
+    font-size: 17px;
+    text-decoration: none;
+    font-weight: 500;
+    color: #666666;
+    align-self: right;
+    margin-bottom: 10px;
+    width: 150px;
+    text-align: left;
+}
+
+.dashboardLink:hover {
+    color: #1cc29f;
+    background-color: #EEEEEE;
+}
+.dashboardLink > img {
+    max-height: 14px;
+    max-width: 14px;
+    padding: 2px 2px 0 2px;
+    margin-right: 2px;
+}
+
+.faLink {
+    max-height: 14px;
+    max-width: 14px;
+    color: #777777;
+    padding: 2px 2px 0 2px;
+    margin-right: 2px;
+}
+
+.dashMid {
+    width: 50%;
+    text-align: center;
+}
+
+.dashRight {
+    float: right;
+    width: 25%;
+    text-align: center;   
+}
+
+.friendIndexHeader {
+    position: relative;
+    background-color: #EEEEEE;
+    color: #999999;
+    font-family: sans-serif;
+    font-size: 12px;
+    margin-top: 20px;
+    width: 150px;
+    text-align: left;
+    margin-bottom: 8px;
+    padding: 3px;
+}
+
+.friendItem {
+    font-family: sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 475;
+    color: #777777;
+    align-self: right;
+    margin-bottom: 5px;
+    width: 150px;
+    text-align: left;
+}
+
+.friendList {
+    margin-bottom: 20px;
+}
+
+.searchHeader {
+    font-family: sans-serif;
+    text-align: left;
+    background-color: #1cc29f;
+    color: white;
+    font-size: 14px;
+    width: 150px;
+    padding: 5px;
+    border: 1px solid #15977b;
+
+}
+
+.searchBox {
+    padding: 0 0 5px 0;
+    text-shadow: rgba(0, 0, 0, 0.25) 0px -1px 0px;
+    font-weight: 700;
+}
+
+.searchBox > form {
+    border-left: 1px solid #777777;
+    border-right: 1px solid #777777;
+    border-bottom: 1px solid #777777;
+    padding: 2px;
+    max-width: 156px;
+}
+
+.searchBox > form > input {
+    margin-top: 0;
+    border: 1px solid #777777;
+}
+
+.requestBtn {
+    margin-right: 73px;
+    border: 1px solid #777777;
+    border-radius: 5px;
+    background-color: #EEEEEE;
+    padding: 5px;
+    margin-top: 5px;
+    min-width: 100px;
+}
+
+.requestBtn:hover {
+    background-color: #d8d8d8;
+    cursor: pointer;
+}

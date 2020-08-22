@@ -1,4 +1,5 @@
 import { RECEIVE_REQUEST, DELETE_REQUEST, RECEIVE_ALL_REQUESTS } from "../actions/friend_actions";
+import { LOGOUT_CURRENT_USER } from "../actions/session_actions";
 
 
 const requestReducer = (oldState = {}, action) => {
@@ -12,6 +13,8 @@ const requestReducer = (oldState = {}, action) => {
         case DELETE_REQUEST:
             delete newState[action.requestId]
             return newState
+        // case LOGOUT_CURRENT_USER:
+        //     return {}
         default:
             return oldState
     }

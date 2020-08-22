@@ -1,9 +1,20 @@
 
- .header {
+ .headerSplash {
      display: flex;
      padding-top: 6px;
      justify-content: space-between;
      background-color: white;
+     width: 100%;
+ }
+
+ .headerLoggedIn {
+     display: flex;
+     padding-top: 6px;
+     justify-content: space-between;
+     background-color: #1cc29f;
+     color: white;
+     box-shadow: rgba(0, 0, 0, 0.5) 0 0 4px 0;
+     width: 100%;
  }
 
  .logoTitle {
@@ -16,7 +27,7 @@
  .greeting {
      font-family: sans-serif;
      font-size: 14px;
-     color: #3b4443;
+     color: white;
  }
 
  .greetingName {
@@ -30,11 +41,12 @@
      margin: 5px 5px 4px 5px;
      font-weight: bold;
      align-self: center;
+     text-shadow: rgba(0, 0, 0, 0.25) 0px -1px 0px;
  }
 
  .logout {
-    background-color: #1cc29f;
-    box-shadow: 0 2px 0 #15977b;
+    background-color: #ff652f;
+    border: 1px solid #c83400;
     color: white;
     font-family: sans-serif;
     font-size: 15px;
@@ -42,9 +54,14 @@
     text-decoration: none;
     padding: 8px;
     border-radius: 5px;
-    margin: 5px 5px 5px 5px;
+    margin: 3px 5px 7px 5px;
     min-width: 55px;
     min-height: 31px;
+ }
+
+ .logout:hover {
+     background-color: #c83400;
+     cursor: pointer;
  }
 
  .logo {
@@ -52,7 +69,7 @@
      max-height: 35px;
  }
 
- .title {
+ .titleSplash {
      font-family: sans-serif;
      font-size: 20px;
      color: #3b4443;
@@ -60,6 +77,17 @@
      margin-top: 0;
      letter-spacing: .15ch;
      font-weight: bold;
+ }
+
+ .titleLoggedIn {
+     font-family: sans-serif;
+     font-size: 20px;
+     color: white;
+     padding: 10px;
+     margin-top: 0;
+     letter-spacing: .15ch;
+     font-weight: bold;
+     text-shadow: rgba(0, 0, 0, 0.25) 0px -1px 0px;
  }
 
  .greetingBtn {
@@ -70,7 +98,7 @@
 
  .signup {
     background-color: #1cc29f;
-    box-shadow: 0 2px 0 #15977b;
+    border: 1px solid #0f6b57;
     color: white;
     position: relative;
     font-family: sans-serif;
@@ -95,7 +123,7 @@
     min-width: 45px;
 }
 
-.logout:hover, .signup:hover {
+.signup:hover {
   background-color: #15977b;
   cursor: pointer;
 }

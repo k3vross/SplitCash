@@ -3,13 +3,15 @@ import FriendsIndex from './friends_index';
 import { getAllRequests, clearRequest, sendRequest } from '../../actions/friend_actions';
 import { connect } from 'react-redux';
 
-mSTP = state => {
-return {
-    friends: Object.values(state[friendships])
+
+const mSTP = state => {
+    return {
+    currentUser: state.entities.users[state.session.id],
+    friendships: Object.values(state.friendships)
 }}
 
-mDTP = dispatch => ({
-    getAllRequests: () => dispatch(getAllRequests()),
+const mDTP = dispatch => ({
+    getAllRequests: (requestIds) => dispatch(getAllRequests(requestIds)),
     clearRequest: (requestId => dispatch(clearRequest(requestId))),
     sendRequest: (request) => dispatch(sendRequest(request))
 })

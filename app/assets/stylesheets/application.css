@@ -15,7 +15,11 @@
  *= require_self
  */
 
-
+input {
+    border-radius: 5px;
+    min-width: 150px;
+    min-height: 25px;
+}
 
 
 
