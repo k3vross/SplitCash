@@ -1,7 +1,7 @@
 json.friendships do 
     @friendships.each do |friendship|
         json.set! friendship.id do
-            json.extract! friendship, :id, :requester_id, :recipient_id, :confirmed
+            json.extract! friendship, :id, :requester_id, :recipient_id
             json.requesterName friendship.requester.username
             json.recipientName friendship.recipient.username
         end

@@ -32,11 +32,18 @@ export const clearSessionErrors = () => {
   }
 }
 
+export const receiveAllUsers = (users) => {
+  return {
+    type: RECEIVE_ALL_USERS,
+    users
+  }
+}
+
 
 
 export const login = (user) => (dispatch) => {
-  return postSession(user).then((user) => {
-    dispatch(receiveCurrentUser(user))
+  return postSession(user)
+    .then((user) => { dispatch(receiveCurrentUser(user))
   }).fail((errors) => {
     dispatch(receiveSessionErrors(errors.responseJSON))
   })

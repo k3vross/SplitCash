@@ -5,7 +5,6 @@
 #  id           :bigint           not null, primary key
 #  requester_id :integer          not null
 #  recipient_id :integer          not null
-#  confirmed    :boolean          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #

@@ -90,7 +90,7 @@
 /*!********************************************!*\
   !*** ./frontend/actions/friend_actions.js ***!
   \********************************************/
-/*! exports provided: RECEIVE_REQUEST, DELETE_REQUEST, RECEIVE_ALL_REQUESTS, sendRequest, clearRequest, getAllRequests */
+/*! exports provided: RECEIVE_REQUEST, DELETE_REQUEST, RECEIVE_ALL_REQUESTS, RECEIVE_REQUEST_ERRORS, CLEAR_REQUEST_ERRORS, clearRequestErrors, sendRequest, clearRequest, getAllRequests */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98,6 +98,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_REQUEST", function() { return RECEIVE_REQUEST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE_REQUEST", function() { return DELETE_REQUEST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ALL_REQUESTS", function() { return RECEIVE_ALL_REQUESTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_REQUEST_ERRORS", function() { return RECEIVE_REQUEST_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_REQUEST_ERRORS", function() { return CLEAR_REQUEST_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearRequestErrors", function() { return clearRequestErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendRequest", function() { return sendRequest; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearRequest", function() { return clearRequest; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllRequests", function() { return getAllRequests; });
@@ -106,6 +109,8 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_REQUEST = 'RECEIVE_REQUEST';
 var DELETE_REQUEST = "DELETE_REQUEST";
 var RECEIVE_ALL_REQUESTS = 'RECEIVE_ALL_REQUESTS';
+var RECEIVE_REQUEST_ERRORS = 'RECEIVE_REQUEST_ERRORS';
+var CLEAR_REQUEST_ERRORS = 'CLEAR_REQUEST_ERRORS';
 
 var receiveRequest = function receiveRequest(request) {
   return {
@@ -128,11 +133,27 @@ var removeRequest = function removeRequest(requestId) {
   };
 };
 
-var sendRequest = function sendRequest(request) {
+var receiveRequestErrors = function receiveRequestErrors(errors) {
+  return {
+    type: RECEIVE_REQUEST_ERRORS,
+    errors: errors
+  };
+};
+
+var clearRequestErrors = function clearRequestErrors() {
+  return {
+    type: CLEAR_REQUEST_ERRORS
+  };
+};
+var sendRequest = function sendRequest(email) {
   return function (dispatch) {
-    return Object(_util_friend_request_api_util__WEBPACK_IMPORTED_MODULE_0__["postRequest"])(request).then(function (request) {
-      return dispatch(receiveRequest(request));
-    });
+    return Object(_util_friend_request_api_util__WEBPACK_IMPORTED_MODULE_0__["postRequest"])(email).then(function (request) {
+      dispatch(receiveRequest(request));
+    }).fail(function (errors) {
+      dispatch(receiveRequestErrors(errors.responseJSON));
+    }, setTimeout(function () {
+      dispatch(clearRequestErrors());
+    }, 2000));
   };
 };
 var clearRequest = function clearRequest(requestId) {
@@ -156,7 +177,7 @@ var getAllRequests = function getAllRequests(requestIds) {
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_SESSION_ERRORS, RECEIVE_ALL_USERS, clearSessionErrors, login, signup, logout */
+/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_SESSION_ERRORS, RECEIVE_ALL_USERS, clearSessionErrors, receiveAllUsers, login, signup, logout */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -167,6 +188,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_SESSION_ERRORS", function() { return CLEAR_SESSION_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ALL_USERS", function() { return RECEIVE_ALL_USERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearSessionErrors", function() { return clearSessionErrors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveAllUsers", function() { return receiveAllUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signup", function() { return signup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
@@ -203,6 +225,12 @@ var clearSessionErrors = function clearSessionErrors() {
     type: CLEAR_SESSION_ERRORS
   };
 };
+var receiveAllUsers = function receiveAllUsers(users) {
+  return {
+    type: RECEIVE_ALL_USERS,
+    users: users
+  };
+};
 var login = function login(user) {
   return function (dispatch) {
     return Object(_util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["postSession"])(user).then(function (user) {
@@ -227,6 +255,38 @@ var logout = function logout() {
       dispatch(logoutCurrentUser());
     }).fail(function (errors) {
       dispatch(receiveSessionErrors(errors));
+    });
+  };
+};
+
+/***/ }),
+
+/***/ "./frontend/actions/user_actions.js":
+/*!******************************************!*\
+  !*** ./frontend/actions/user_actions.js ***!
+  \******************************************/
+/*! exports provided: RECEIVE_USER, getUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUser", function() { return getUser; });
+/* harmony import */ var _util_user_search_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_search_api_util */ "./frontend/util/user_search_api_util.jsx");
+
+var RECEIVE_USER = 'RECEIVE_USER';
+
+var receiveUser = function receiveUser(user) {
+  return {
+    type: RECEIVE_USER,
+    user: user
+  };
+};
+
+var getUser = function getUser(email) {
+  return function (dispatch) {
+    return Object(_util_user_search_api_util__WEBPACK_IMPORTED_MODULE_0__["searchUsers"])(email).then(function (user) {
+      return dispatch(receiveUser(user));
     });
   };
 };
@@ -543,21 +603,36 @@ var FriendsIndexItem = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(FriendsIndexItem);
 
   function FriendsIndexItem(props) {
+    var _this;
+
     _classCallCheck(this, FriendsIndexItem);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(FriendsIndexItem, [{
+    key: "handleClick",
+    value: function handleClick() {
+      this.props.clearRequest(this.props.friendship.id);
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "friendItem"
       }, this.props.currentUser.id === this.props.friendship.requester_id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], {
         className: "faLink"
-      }), " ", this.props.friendship.recipientName) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], {
+      }), " ", this.props.friendship.recipientName, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "deleteFriend",
+        onClick: this.handleClick
+      }, "REMOVE")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], {
         className: "faLink"
-      }), " ", this.props.friendship.requesterName));
+      }), " ", this.props.friendship.requesterName, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "deleteFriend",
+        onClick: this.handleClick
+      }, "REMOVE")));
     }
   }]);
 
@@ -802,24 +877,61 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      users: _this.props.fetchAllUsers()
+      email: ""
     };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.update = _this.update.bind(_assertThisInitialized(_this));
+    _this.renderErrors = _this.renderErrors.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(FriendSearch, [{
+    key: "update",
+    value: function update() {
+      var _this2 = this;
+
+      return function (e) {
+        return _this2.setState({
+          email: e.currentTarget.value
+        });
+      };
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit() {
+      this.props.sendRequest(this.state.email);
+      this.setState({
+        email: ''
+      });
+    }
+  }, {
+    key: "renderErrors",
+    value: function renderErrors() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: i
+        }, error);
+      }));
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "searchBox"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "searchHeader"
-      }, "Find a friend"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Find a friend"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        value: this.state.email,
+        onChange: this.update(),
         placeholder: "Search by email"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "requestBtn"
-      }, "Send request")));
+      }, "Add Friend")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "errors"
+      }, this.renderErrors()));
     }
   }]);
 
@@ -841,20 +953,35 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _friend_search__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./friend_search */ "./frontend/components/left_side/friend_search.jsx");
-/* harmony import */ var _util_session_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/session_api_util */ "./frontend/util/session_api_util.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
 
 
 
+
+
+var mSTP = function mSTP(state) {
+  return {
+    currentUser: state.entities.users[state.session.id],
+    errors: state.errors.request
+  };
+};
 
 var mDTP = function mDTP(dispatch) {
   return {
-    fetchAllUsers: function fetchAllUsers() {
-      return Object(_util_session_api_util__WEBPACK_IMPORTED_MODULE_2__["fetchAllUsers"])();
+    getUser: function getUser(email) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["getUser"])(email));
+    },
+    sendRequest: function sendRequest(request) {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__["sendRequest"])(request));
+    },
+    clearRequestErrors: function clearRequestErrors() {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__["clearRequestErrors"])());
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(null, mDTP)(_friend_search__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_friend_search__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -1232,12 +1359,47 @@ var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_errors_reducer */ "./frontend/reducers/session_errors_reducer.js");
+/* harmony import */ var _request_errors_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./request_errors_reducer */ "./frontend/reducers/request_errors_reducer.js");
+
 
 
 var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  request: _request_errors_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/request_errors_reducer.js":
+/*!*****************************************************!*\
+  !*** ./frontend/reducers/request_errors_reducer.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+
+
+var requestErrorsReducer = function requestErrorsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _actions_friend_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_REQUEST_ERRORS"]:
+      return action.errors;
+
+    case _actions_friend_actions__WEBPACK_IMPORTED_MODULE_0__["CLEAR_REQUEST_ERRORS"]:
+      return [];
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (requestErrorsReducer);
 
 /***/ }),
 
@@ -1263,7 +1425,8 @@ var requestReducer = function requestReducer() {
 
   switch (action.type) {
     case _actions_friend_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_REQUEST"]:
-      return newState[action.request.id] = action.request;
+      newState[action.request.id] = action.request;
+      return newState;
 
     case _actions_friend_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_ALL_REQUESTS"]:
       return action.payload.friendships;
@@ -1271,8 +1434,6 @@ var requestReducer = function requestReducer() {
     case _actions_friend_actions__WEBPACK_IMPORTED_MODULE_0__["DELETE_REQUEST"]:
       delete newState[action.requestId];
       return newState;
-    // case LOGOUT_CURRENT_USER:
-    //     return {}
 
     default:
       return oldState;
@@ -1409,7 +1570,9 @@ var sessionReducer = function sessionReducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/user_actions */ "./frontend/actions/user_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1423,6 +1586,10 @@ var usersReducer = function usersReducer() {
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       newState = Object.assign({}, oldState, _defineProperty({}, action.user.id, action.user));
+      return newState;
+
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_USER"]:
+      newState[action.user.id] = action.user;
       return newState;
 
     case _actions_friend_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_ALL_REQUESTS"]:
@@ -1548,12 +1715,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postRequest", function() { return postRequest; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchRequests", function() { return fetchRequests; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteRequest", function() { return deleteRequest; });
-var postRequest = function postRequest(request) {
+var postRequest = function postRequest(email) {
   return $.ajax({
     url: "/api/friends",
     method: "POST",
     data: {
-      request: request
+      email: email
     }
   });
 };
@@ -1660,6 +1827,28 @@ var deleteSession = function deleteSession() {
   return $.ajax({
     url: '/api/session',
     method: 'DELETE'
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/user_search_api_util.jsx":
+/*!************************************************!*\
+  !*** ./frontend/util/user_search_api_util.jsx ***!
+  \************************************************/
+/*! exports provided: searchUsers */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "searchUsers", function() { return searchUsers; });
+var searchUsers = function searchUsers(email) {
+  return $.ajax({
+    url: '/api/users',
+    method: 'GET',
+    data: {
+      email: email
+    }
   });
 };
 

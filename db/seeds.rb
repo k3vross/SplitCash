@@ -19,8 +19,15 @@
     jen = User.create(username: 'jen', email: 'jen@jen.com', password: '123456')
 
 
-    Friend.create(requester_id: mike.id, recipient_id: walker.id, confirmed: true)
-    Friend.create(requester_id: michelle.id, recipient_id: vanessa.id, confirmed: true)
-    Friend.create(requester_id: vanessa.id, recipient_id: walker.id, confirmed: false)
-    Friend.create(requester_id: jen.id, recipient_id: joe.id, confirmed: true)
-    Friend.create(requester_id: michelle.id, recipient_id: mike.id, confirmed: true)
+    Friend.create(requester_id: mike.id, recipient_id: walker.id)
+    Friend.create(requester_id: michelle.id, recipient_id: vanessa.id)
+    Friend.create(requester_id: vanessa.id, recipient_id: walker.id)
+    Friend.create(requester_id: jen.id, recipient_id: joe.id)
+    Friend.create(requester_id: michelle.id, recipient_id: mike.id)
+    Friend.create(requester_id: demo.id, recipient_id: mike.id)
+    Friend.create(requester_id: jen.id, recipient_id: demo.id)
+    Friend.create(requester_id: walker.id, recipient_id: demo.id)
+    Friend.create(requester_id: vanessa.id, recipient_id: demo.id)
+    Friend.create(requester_id: demo.id, recipient_id: michelle.id)
+    Friend.create(requester_id: demo.id, recipient_id: joe.id)
+

@@ -1,11 +1,11 @@
 
 
 
-export const postRequest = (request) => {
+export const postRequest = (email) => {
     return $.ajax({
         url: "/api/friends",
         method: "POST",
-        data: { request }
+        data: { email }
     })
 }
 

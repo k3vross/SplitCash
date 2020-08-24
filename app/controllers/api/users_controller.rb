@@ -11,8 +11,12 @@ class Api::UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
-    render :index
+    if params[:email]
+      @user = User.find_by(email: params[:email])
+      render json: @user
+    else
+      render json: ['User not found'], status: 401
+    end
   end
 
 private
