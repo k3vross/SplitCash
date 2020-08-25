@@ -132,3 +132,85 @@
     cursor: pointer;
     color: #15977b;
 }
+
+.welcomeTitle {
+    margin-top: 60px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 50px;
+    letter-spacing: 5px;
+    color: #373b3f
+}
+
+.welcomeDescription {
+    margin-top: 20px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #373b3f
+}
+
+.splashContent {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.splashLogo {
+    max-width: 400px;
+    margin-top: 100px;
+    margin-right: 100px;
+}
+
+.featuresList {
+    color: #373b3f;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-left: 100px;
+}
+
+.splashContent > div {
+    margin-top: 140px;
+}
+
+.splashContent > div > ul {
+    margin-bottom: 50px;
+}
+
+.splashContent > div > ul > li {
+    margin-bottom: 50px;
+    min-width: 400px;
+}
+
+.splashSignup {
+    background-color: #1cc29f;
+    border: 1px solid #0f6b57;
+    color: white;
+    font-family: sans-serif;
+    font-size: 34px;
+    font-weight: 700px;
+    min-height: 100px;
+    text-decoration: none;
+    padding: 10px 55px 10px 55px;
+    border-radius: 5px;
+    margin-left: 100px;
+    min-width: 200px;
+}
+
+.splashSignup:hover {
+    cursor: pointer;
+    background-color: #0f6b57;
+}
+
+.reviewsContainer {
+    display: flex;
+}
+
+.reviews {
+    margin-top: 100px;
+    justify-content: center;
+    width: 75%;
+}
