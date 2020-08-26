@@ -1,0 +1,27 @@
+.rightDash {
+    width: 30%;
+    font-family: sans-serif;
+    color: #666666;
+    margin: 12px 0 0 20px;
+    font-size: 17px;
+    display: flex;
+    justify-content: flex-start;
+    min-width: 191px;
+
+}
+
+.green > p, .red > p {
+    text-align: left;
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+.green {
+    margin-top: 25px;
+    color: rgb(36, 160, 36);
+}
+
+.red {
+    color: #ff652f;
+    margin-top: 25px;
+}

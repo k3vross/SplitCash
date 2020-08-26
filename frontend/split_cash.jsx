@@ -6,6 +6,7 @@ import { postUser, postSession, deleteSession } from './util/session_api_util';
 import { login, signup, logout } from './actions/session_actions';
 import { postRequest, deleteRequest, fetchRequests} from './util/friend_request_api_util';
 import { sendRequest, clearRequest, getAllRequests  } from './actions/friend_actions';
+import { getAllBills, clearBill } from './actions/bill_actions';
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -39,6 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.clearRequest = clearRequest;
     window.fetchRequests = fetchRequests;
     window.getAllRequests = getAllRequests;
+    window.getAllBills = getAllBills;
+    window.clearBill = clearBill;
   //test
 
   ReactDOM.render(<Root store={store}/>, root);

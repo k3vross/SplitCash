@@ -1,6 +1,6 @@
 import HeaderContainer from '../header/header_container';
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';  
 
 const Splash = () => {
     return (

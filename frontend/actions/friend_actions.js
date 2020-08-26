@@ -1,4 +1,4 @@
-import { postRequest, deleteRequest } from '../util/friend_request_api_util';
+import { postRequest, deleteRequest, fetchRequests } from '../util/friend_request_api_util';
 
 export const RECEIVE_REQUEST = 'RECEIVE_REQUEST';
 export const DELETE_REQUEST = "DELETE_REQUEST";

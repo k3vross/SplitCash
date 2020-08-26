@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 const mSTP = state => {
     return {
     currentUser: state.entities.users[state.session.id],
-    friendships: Object.values(state.friendships)
+    friendships: Object.values(state.entities.friendships)
 }}
 
 const mDTP = dispatch => ({

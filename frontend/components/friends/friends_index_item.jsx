@@ -1,5 +1,6 @@
 import React from 'react';
 import {FaUser} from 'react-icons/fa';
+import {Link} from 'react-router-dom';
 
 class FriendsIndexItem extends React.Component {
     constructor(props) {
@@ -15,9 +16,9 @@ class FriendsIndexItem extends React.Component {
         return (
             <li className='friendItem'>
                 {this.props.currentUser.id === this.props.friendship.requester_id ? 
-                    <p> <FaUser className='faLink' /> {this.props.friendship.recipientName} <button className='deleteFriend' onClick={this.handleClick}>REMOVE</button></p>
+                    <p> <Link className='nameLink' to={`/dashboard/${this.props.friendship.recipient_id}`}> <FaUser className='faLink' /> {this.props.friendship.recipientName} </Link> <button className='deleteFriend' onClick={this.handleClick}>REMOVE</button></p>
                     :
-                    <p> <FaUser className='faLink' /> {this.props.friendship.requesterName} <button className='deleteFriend' onClick={this.handleClick}>REMOVE</button></p>
+                    <p> <Link className='nameLink' to={`/dashboard/${this.props.friendship.requester_id}`}> <FaUser className='faLink' /> {this.props.friendship.requesterName} </Link> <button className='deleteFriend' onClick={this.handleClick}>REMOVE</button></p>
                 }
             </li>
         )

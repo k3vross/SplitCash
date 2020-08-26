@@ -14,6 +14,7 @@ class User < ApplicationRecord
   validates :username, :email, :password_digest, presence: true
   validates :username, :email, uniqueness: true
   validates :password, length: {minimum: 6, allow_nil: true}
+  validates :username, length: {maximum: 12, allow_nil: true}
 
   has_many :requesters,
     foreign_key: :requester_id,
@@ -23,6 +24,14 @@ class User < ApplicationRecord
     foreign_key: :recipient_id,
     class_name: :Friend
 
+  has_many :bills_created,
+    foreign_key: :user_id,
+    class_name: :Bill
+
+  has_many :bills_received,
+    foreign_key: :friend_id,
+    class_name: :Bill
+
 
   attr_reader :password
 
@@ -31,6 +40,11 @@ class User < ApplicationRecord
   def all_friends
     friends = self.requesters + self.recipients
     friends.pluck(:id)
+  end
+
+  def all_bills
+    bills = self.bills_created + self.bills_received
+    bills.pluck(:id)
   end
 
   def self.find_by_credentials(username, password)
