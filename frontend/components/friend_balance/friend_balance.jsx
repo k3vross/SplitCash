@@ -26,9 +26,12 @@ class FriendBalance extends React.Component {
     }
 
     balanceCalc() {
-        const { bills, currentUser } = this.props
+        const { bills, currentUser, friend } = this.props
         let owed = 0;
         let owe = 0;
+        if (!friend) {
+            return null
+        }
         this.getFriendBills().forEach(bill => {
             if ((bill.user_id === currentUser.id) && (bill.author_paid === 'y')) {
                 owed += parseFloat((bill.amount / 200).toFixed(2))
@@ -77,7 +80,7 @@ class FriendBalance extends React.Component {
         }
         return (
             <div>
-                YOUR TOTAL BALANCE
+                YOUR BALANCE WITH {friend.username}
                 {this.totalType()}
             </div>
         )

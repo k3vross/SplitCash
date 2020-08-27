@@ -1,40 +1,81 @@
 import React from 'react';
-import {FaTimes} from 'react-icons/fa';
+import {Link} from 'react-router-dom'
 
 
 class BillIndexItem extends React.Component {
     constructor(props) {
         super(props)
-        this.payer = this.payer.bind(this)
-        this.payee = this.payee.bind(this)
-        this.getDate = this.getDate.bind(this)
+        this.state = {
+            total: 0,
+            owed: 0,
+            owe: 0
+        }
         this.color = this.color.bind(this)
-        this.handleClick = this.handleClick.bind(this)
+        this.friendName = this.friendName.bind(this)
+        this.getFriendBills = this.getFriendBills.bind(this)
+        this.totalType = this.totalType.bind(this)
     }
 
-    payer() {
-        const { bill, currentUser } = this.props
-        if (bill.user_id === currentUser.id && bill.author_paid === 'y') {
-            return 'You paid'
-        } else if (bill.user_id === currentUser.id && bill.author_paid === 'n') {
-            return `${bill.receiverName} paid`
-        } else if (bill.user_id !== currentUser.id && bill.author_paid === 'y') {
-            return `${bill.authorName} paid`
-        } else if (bill.user_id !== currentUser.id && bill.author_paid === 'n') {
-            return 'You paid'
+    friendName() {
+        const { friendship, currentUser } = this.props
+        if (currentUser.id === friendship.requester_id) {
+            return friendship.recipientName
+        } else {
+            return friendship.requesterName
         }
     }
 
-    payee() {
-        const { bill, currentUser } = this.props
-        if (bill.user_id === currentUser.id && bill.author_paid === 'y') {
-            return `You lent ${bill.receiverName}`
-        } else if (bill.user_id === currentUser.id && bill.author_paid === 'n') {
-            return `${bill.receiverName} lent you`
-        } else if (bill.user_id !== currentUser.id && bill.author_paid === 'y') {
-            return `${bill.authorName} lent you`
-        } else if (bill.user_id !== currentUser.id && bill.author_paid === 'n') {
-            return `You lent ${bill.reveiverName}`
+    friendId() {
+        const { friendship, currentUser } = this.props
+        if (currentUser.id === friendship.requester_id) {
+            return friendship.recipient_id
+        } else {
+            return friendship.requester_id
+        }
+    }
+
+    getFriendBills() {
+        const { bills } = this.props
+        let friendBills = []
+        bills.forEach(bill => {
+            if ((this.friendId() === bill.friend_id) || (this.friendId() === bill.user_id)) {
+                friendBills.push(bill)
+            }
+        })
+        return friendBills
+    }
+
+    balanceCalc() {
+        const { currentUser} = this.props
+        let owed = 0;
+        let owe = 0;
+        this.getFriendBills().forEach(bill => {
+            if ((bill.user_id === currentUser.id) && (bill.author_paid === 'y')) {
+                owed += parseFloat((bill.amount / 200).toFixed(2))
+            } else if ((bill.user_id === currentUser.id) && (bill.author_paid === 'n')) {
+                owe += parseFloat((bill.amount / 200).toFixed(2))
+            } else if ((bill.user_id !== currentUser.id) && (bill.author_paid === 'y')) {
+                owe += parseFloat((bill.amount / 200).toFixed(2))
+            } else if ((bill.user_id !== currentUser.id) && (bill.author_paid === 'n')) {
+                owed += parseFloat((bill.amount / 200).toFixed(2))
+            }
+        })
+        if (owed === owe) {
+            this.setState({ total: 0 })
+        } else if (owed > owe) {
+            this.setState({ total: owed - owe })
+        } else {
+            this.setState({ total: -(owe - owed) })
+        }
+    }
+
+    componentDidMount() {
+        this.balanceCalc()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) {
+            this.balanceCalc()
         }
     }
 
@@ -51,57 +92,32 @@ class BillIndexItem extends React.Component {
         }
     }
 
-    getDate() {
-        const { bill } = this.props
-        const monthName = {
-            "01": "JAN",
-            "02": "FEB",
-            "03": "MAR",
-            "04": "APR",
-            "05": "MAY",
-            "06": "JUN",
-            '07': "JUL",
-            "08": "AUG",
-            "09": "SEP",
-            "10": "OCT",
-            '11': "NOV",
-            "12": "DEC"
+    totalType() {
+        if (this.state.total == 0) {
+            return <div className='billGreen'>{`You and ${this.friendName()} are all settled up`}</div>
+        } else if (this.state.total > 0) {
+            return <div className='billGreen'>{`${this.friendName()} owes you`} <p>${Math.abs(this.state.total).toFixed(2)}</p></div>
+        } else {
+            return <div className="billRed">{`You owe ${this.friendName()}`} <p>${Math.abs(this.state.total).toFixed(2)}</p></div>
         }
-        let date = bill.updated_at
-        let month = date.slice(5, 7)
-        let day = date.slice(8, 10)
-        return (
-                <div className='billDate'>
-                    <p className='billMonth'>{monthName[month]}</p> <p className='billDay'>{day}</p>
-                </div>
-        )
     }
-
-    handleClick() {
-        const { bill, clearBill } =this.props
-        clearBill(bill.id)
-    }
-
 
     render() {
         return (
             <li >
-                <div className='billIndexItem'>
-                    <span className='billLeft'>
-                        {this.getDate()} <p>{this.props.bill.description}</p> 
-                    </span>
-                    <span className='billRight'>
-                        <div className='billPayer'>  
-                            <p className='billPayerName'>{this.payer()}</p>  <p className='billPayerAmount'>${(this.props.bill.amount / 100.00).toFixed(2)}</p>
+                <Link className='balanceItem' to={`/dashboard/${this.friendId()}`}>
+                    <div className='billIndexItem'>
+                        <span className='billLeft'> 
+                        <div>
+                            <img className='userDefault' src={window.images.user} alt={this.friendName()}/>
                         </div>
-                        <div className='billPayee'>
-                            <p className='billPayerName'>{this.payee()}</p> <p className={this.color()} >${((this.props.bill.amount / 100.00) / 2).toFixed(2)}</p>              
-                        </div>
-                        <div className='deleteBill'>
-                            <FaTimes onClick={this.handleClick} />
-                        </div>
-                    </span>
-                </div>
+                            <div className='balanceName'>{this.friendName()}</div>
+                        </span>
+                        <span className='billRight'>
+                            <div className='balanceAmount'>{this.totalType()}</div>
+                        </span>
+                    </div>
+                </Link>
             </li>
         )
     }

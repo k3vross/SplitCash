@@ -17,6 +17,9 @@ class Api::FriendsController < ApplicationController
     end
 
     def index
+        if !current_user
+            return null
+        end
         friendIds = []
         @friendships = Friend.find(params[:requestIds])
         @friendships.each do |friendship|

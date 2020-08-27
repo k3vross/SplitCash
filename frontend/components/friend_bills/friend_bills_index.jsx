@@ -6,6 +6,7 @@ class FriendBillsIndex extends React.Component {
     constructor(props) {
         super(props)
         this.getFriendBills = this.getFriendBills.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
     getFriendBills() {
@@ -19,6 +20,16 @@ class FriendBillsIndex extends React.Component {
         return friendBills
     }
 
+    handleClick(e) {
+        e.preventDefault();
+        let open = document.getElementsByClassName('modal')[0]
+        open.classList.add('is-open')
+    }
+
+    componentDidMount() {
+        this.props.getAllBills()
+    }
+
     render() {
         const { friend } = this.props
         if (!friend) {
@@ -28,7 +39,7 @@ class FriendBillsIndex extends React.Component {
             <div>
                 <div className='transactionHeader'>
                     <h2>{friend.username}</h2>
-                    <Link to={`/addBill/${friend.id}`} className='addBill'>Add Expense</Link>
+                    <button onClick={this.handleClick} className='formSubmit'>Add Expense</button>
                     <button className="demoBtn">Settle Up</button>
                 </div>
                 <ul>

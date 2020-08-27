@@ -10,11 +10,11 @@ class Api::BillsController < ApplicationController
             amount: ((params[:bill][:amount].to_f * 100).to_i),
             author_paid: params[:bill][:author_paid]
         )
+        debugger
         if @bill.save
             render :show
         else
             render json: @bill.errors.full_messages, status: 401
-            debugger
         end
     end
 

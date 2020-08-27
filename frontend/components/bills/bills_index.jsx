@@ -7,6 +7,7 @@ class BillsIndex extends React.Component {
     }
 
     componentDidMount() {
+        this.props.getAllRequests(this.props.currentUser.all_friends)
         this.props.getAllBills(this.props.currentUser.all_bills)
     }
 
@@ -14,16 +15,17 @@ class BillsIndex extends React.Component {
         return (
             <div>
                 <div className='transactionHeader'>
-                    <h2>All Expenses</h2>
+                    <h2>Balances</h2>
                     <button className='formSubmit'>Add Expense</button>
                     <button className="demoBtn">Settle Up</button>
                 </div>
                 <ul>
-                    {this.props.bills.map(bill => (
-                        <BillIndexItem key={bill.id}
+                    {this.props.friendships.map(friendship => (
+                        <BillIndexItem key={friendship.id}
                             clearBill={this.props.clearBill}
                             currentUser={this.props.currentUser}
-                            bill={bill}
+                            friendship={friendship}
+                            bills={this.props.bills}
                         />
                     ))}
                 </ul>

@@ -160,6 +160,7 @@
     border-right: 1px solid #c9c9c9;
     box-shadow: rgba(0, 0, 0, 0.25) 0 0 3px 0;
     min-width: 740px;
+    min-height: 1000px;
 }
 
 .transactionHeader {
@@ -200,4 +201,17 @@
     cursor: pointer;
 }
 
+.balanceItem {
+    text-decoration: none;
+}
+
+.balanceName {
+    font-weight: 700;
+    font-size: 16px;
+    margin-left: 30px;
+}
+
+.balanceAmount {
+    width: 300px;
+}
 

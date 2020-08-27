@@ -4,12 +4,13 @@ import {getAllBills, clearBill} from '../../actions/bill_actions';
 
 const mSTP = state => ({
     currentUser: state.entities.users[state.session.id],
-    bills: Object.values(state.entities.bills)
+    bills: Object.values(state.entities.bills),
+    friendships: Object.values(state.entities.friendships) 
 })
 
 const mDTP = dispatch => ({
     getAllBills: billIds => dispatch(getAllBills(billIds)),
-    clearBill: (billId) => dispatch(clearBill(billId))
+    getAllRequests: requestIds => dispatch(getAllRequests(requestIds))
 })
 
 export default connect(mSTP, mDTP)(BillsIndex)

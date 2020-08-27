@@ -6,6 +6,8 @@ import BalanceContainer from '../right_side/balance_container';
 import BillsContainer from '../bills/bills_container';
 import FriendBillsContainer from '../friend_bills/friend_bills_container';
 import FriendBalanceContainer from '../friend_balance/friend_balance_container';
+import CreateBillFormContainer from '../bill_form/create_bill_form_container';
+import CreateBillDashContainer from '../bill_form/create_bill_dash_container';
 
 
 class Dashboard extends React.Component {
@@ -33,9 +35,14 @@ class Dashboard extends React.Component {
                         <Route path='/dashboard/:userId' component={FriendBalanceContainer} />
                         <Route path='/dashboard' component={BalanceContainer} />
                 </Switch>
+                <Switch>
+                    <Route exact path='/dashboard/all' component={CreateBillDashContainer} />
+                    <Route path='/dashboard/:userId' component={CreateBillFormContainer} />
+                </Switch>
             </div>
         </div>
-        )}
+        )
+    }
 }
 
 export default Dashboard

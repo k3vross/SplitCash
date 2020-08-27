@@ -1,6 +1,6 @@
 import React from 'react';
 
-class BillForm extends React.Component {
+class DashBillForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.props.bill
@@ -9,12 +9,11 @@ class BillForm extends React.Component {
     }
 
     handleSubmit(e) {
-        const { friend } = this.props
         e.preventDefault()
         let open = document.getElementsByClassName('modal')[0]
         open.classList.remove('is-open')
-        this.props.action(this.state).then(() => this.props.history.push(`/dashboard/${friend.id}`))
-        this.setState({ description: "", amount: '', author_paid: 'y'})
+        this.props.action(this.state).then(() => this.props.history.push(`/dashboard/all`))
+        this.setState({ user_id: '', description: '', amount: '', author_paid: 'y'})
     }
 
     update(field) {
@@ -23,6 +22,8 @@ class BillForm extends React.Component {
                 return e => this.setState({ amount: e.currentTarget.value })
             case 'author_paid':
                 return e => this.setState({ author_paid: e.currentTarget.value})
+            case 'user_id':
+                return e => this.setState({ user_id: parseInt((e.currentTarget.value))})
             default:
                 return e => this.setState({ [field]: e.currentTarget.value })
         }       
@@ -32,12 +33,12 @@ class BillForm extends React.Component {
         e.preventDefault();
         let open = document.getElementsByClassName('modal')[0]
         open.classList.remove('is-open')
-        this.setState({ description: "", amount: '', author_paid: 'y' })
+        this.setState({ user_id: '', description: '', amount: '', author_paid: 'y' })
     }
 
     render() {
-        const { friend, formType } = this.props
-        if (!friend) {
+        const { friendships, formType, currentUser } = this.props
+        if (friendships.length === 0) {
             return null
         }
         return (
@@ -48,7 +49,15 @@ class BillForm extends React.Component {
                         <h3>{formType}</h3>
                     </div>
                     <div className='formNames'>
-                        <p>{`With you and ${friend.username}`}</p>
+                        With you and <select value={this.state.user_id} onChange={this.update('user_id')}>
+                            {friendships.map(friendship => {
+                                if (currentUser.id === friendship.requester_id) {
+                                    return <option value={friendship.recipient_id}>{friendship.recipientName}</option>
+                                } else {
+                                    return <option value={friendship.requester_id}>{friendship.requesterName}</option>
+                                }
+                            })}
+                        </select>
                     </div>
                     <br/>
                     <div className='billInfo'>
@@ -64,15 +73,15 @@ class BillForm extends React.Component {
                     <br/>
                     <div className="billSummary">
                         Paid by <select className='selector' value={this.state.author_paid} onChange={this.update('author_paid')}>
-                                    <option value='y'>You</option>
-                                    <option value='n'>{`${friend.username}`}</option>
+                                    <option value='y'>you</option>
+                                    <option value='n'>them</option>
                                 </select> and split equally
                                 <br/>
                                 ${(this.state.amount / 2).toFixed(2)} / person  
                                 <br/>
                     </div>
                     <div className='billBtn'>
-                        <button onClick={this.handleClick}className='cancelBill'>Cancel</button>
+                        <button onClick={this.handleClick} className='cancelBill'>Cancel</button>
                         <button className='addBill'>Add Bill</button>
                     </div>
                 </form>
@@ -84,4 +93,4 @@ class BillForm extends React.Component {
 
 // bill: { user_id: null, friend_id: null, description: "", amount: 0, author_paid: null },
 
-export default BillForm
+export default DashBillForm

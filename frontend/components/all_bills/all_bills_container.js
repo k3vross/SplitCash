@@ -8,7 +8,9 @@ const mSTP = state => ({
 })
 
 const mDTP = dispatch => ({
-    getAllBills: billIds => dispatch(getAllBills(billIds))
+    getAllBills: billIds => dispatch(getAllBills(billIds)),
+    clearBill: (billId) => dispatch(clearBill(billId))
+
 })
 
 export default connect(mSTP, mDTP)(AllBillsIndex)

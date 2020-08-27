@@ -6,6 +6,8 @@
     font-family: sans-serif;
     font-size: 14px;
     color: #333333;
+    min-height: 32px;
+    align-items: center;
 }
 
 .billLeft > p, .billRight > p {
@@ -99,4 +101,9 @@
     cursor: pointer;
     border-bottom: 3px solid #ff652f;
     border-top: 3px solid rgb(235, 235, 235);
+}
+
+.userDefault {
+    max-height: 40px;
+    margin-left: 30px;
 }

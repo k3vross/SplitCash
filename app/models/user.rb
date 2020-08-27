@@ -25,7 +25,7 @@ class User < ApplicationRecord
     class_name: :Friend
 
   has_many :bills_created,
-    foreign_key: :user_id,
+    foreign_key: :user_id, 
     class_name: :Bill
 
   has_many :bills_received,
