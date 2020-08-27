@@ -675,7 +675,8 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return BillIndexItem;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component); // comment
+
 
 /* harmony default export */ __webpack_exports__["default"] = (BillIndexItem);
 

@@ -107,4 +107,6 @@ class BillIndexItem extends React.Component {
     }
 }
 
+// comment
+
 export default BillIndexItem
