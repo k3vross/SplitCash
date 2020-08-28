@@ -1,10 +1,21 @@
-# SplitCash ![SplitCash]
+<p display='inline' align="left"> <img width="250px" height="185px" src="https://github.com/k3vross/SplitCash/blob/master/app/assets/images/sc_logo.png"> </p>
 
-https://github.com/k3vross/SplitCash/blob/master/app/assets/images/sc_logo.png
+# SplitCash 
 
-SplitCash is a single page webapp designed to help you keep track of money you owe and money you are owed in an easy to use and straightforward interface. Create transactions between friends, and the app will automatically split the amount and keep a running total of how much o
+SplitCash is a single page webapp designed to help you keep track of money you owe and money you are owed in an easy to use and straightforward interface. Create transactions between friends, and the app will automatically split the amount and keep a running total of how much you owe or are owed by individual friends, or see you total balance from all friends!
 
-Things you may want to cover:
+---
+
+## Live Demo
+
+Check out a live demo of SplitCash
+[HERE](https://splitcash-app.herokuapp.com/#/)
+
+---
+
+## Features
+
+* Splash page with login and signup buttons. A Demo User button is provided onthe login form so you can check out the apps features before signing up
 
 * Ruby version
 
