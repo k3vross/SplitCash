@@ -70,7 +70,7 @@ class DashBillForm extends React.Component {
                             <option value="" disabled>Select a friend</option>
                             {friendships.map(friendship => {
                                 if (currentUser.id === friendship.requester_id) {
-                                    return <option key={friendship.id} value={friendship.recipient_id}>{friendship.recipientName}</option>
+                                    return <option key={friendship.id}value={friendship.recipient_id}>{friendship.recipientName}</option>
                                 } else {
                                     return <option key={friendship.id} value={friendship.requester_id}>{friendship.requesterName}</option>
                                 }
@@ -81,16 +81,28 @@ class DashBillForm extends React.Component {
                     <div className='billInfo'>
                         <img src={window.images.bill} alt="Add a bill"/>
                         <div className='billDetails'>
-                            <input type="text" className='billDescription' placeholder="Enter a description" value={this.state.description} onChange={this.update('description')} />
+                            <input 
+                                type="text"
+                                className='billDescription'
+                                placeholder="Enter a description"
+                                value={this.state.description}
+                                onChange={this.update('description')} />
                             <br/>
                             <label className='dollarLabel'>$
-                                <input className='billAmount' type='float' placeholder='0.00' value={this.state.amount} onChange={this.update('amount')}/>
+                                <input 
+                                    className='billAmount'
+                                    type='float' placeholder='0.00'
+                                    value={this.state.amount}
+                                    onChange={this.update('amount')}/>
                             </label>
                         </div>
                     </div>
                     <br/>
                     <div className="billSummary">
-                        Paid by <select className='selector' value={this.state.author_paid} onChange={this.update('author_paid')}>
+                        Paid by <select 
+                        className='selector'
+                        value={this.state.author_paid}
+                        onChange={this.update('author_paid')}>
                                     <option value='y'>you</option>
                                     <option value='n'>{this.getName()}</option>
                                 </select> and split equally

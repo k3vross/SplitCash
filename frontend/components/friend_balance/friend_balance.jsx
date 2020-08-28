@@ -51,17 +51,7 @@ class FriendBalance extends React.Component {
             this.setState({ total: -(owe - owed) })
         }
     }
-
-    componentDidMount() {
-        this.balanceCalc()
-    }
-
-    componentDidUpdate(prevProps) {
-        if (prevProps !== this.props) {
-            this.balanceCalc()
-        }
-    }
-
+    
     totalType() {
         const { friend } = this.props
         if (this.state.total == 0) {
@@ -72,6 +62,17 @@ class FriendBalance extends React.Component {
             return <div className="red">{`You owe ${friend.username}`} <p>${Math.abs(this.state.total).toFixed(2)}</p></div>
         }
     }
+    
+    componentDidMount() {
+        this.balanceCalc()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps !== this.props) {
+            this.balanceCalc()
+        }
+    }
+
 
     render() {
         const { friend } = this.props
