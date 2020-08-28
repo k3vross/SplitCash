@@ -1027,7 +1027,7 @@ var mSTP = function mSTP(state) {
     bill: {
       user_id: '',
       description: "",
-      amount: 0.00,
+      amount: '',
       author_paid: 'y'
     },
     formType: 'Add a Bill',
@@ -1748,8 +1748,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bill_form_create_bill_all_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../bill_form/create_bill_all_container */ "./frontend/components/bill_form/create_bill_all_container.js");
 /* harmony import */ var _bill_form_create_bill_dash_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../bill_form/create_bill_dash_container */ "./frontend/components/bill_form/create_bill_dash_container.js");
 /* harmony import */ var _right_side_plates__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../right_side/plates */ "./frontend/components/right_side/plates.jsx");
-/* harmony import */ var _bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../bill_form/edit_bill_form_container.jsx */ "./frontend/components/bill_form/edit_bill_form_container.jsx");
-/* harmony import */ var _bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_12__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1771,7 +1769,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 
 
 
@@ -1827,7 +1824,17 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/dashboard/:userId",
         component: _friend_balance_friend_balance_container__WEBPACK_IMPORTED_MODULE_7__["default"]
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bill_form_create_bill_dash_container__WEBPACK_IMPORTED_MODULE_10__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bill_form_create_bill_form_container__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bill_form_create_bill_all_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        exact: true,
+        path: "/dashboard/",
+        component: _bill_form_create_bill_dash_container__WEBPACK_IMPORTED_MODULE_10__["default"]
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        path: "/dashboard/all",
+        component: _bill_form_create_bill_all_container__WEBPACK_IMPORTED_MODULE_9__["default"]
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        path: "/dashboard/:userId",
+        component: _bill_form_create_bill_form_container__WEBPACK_IMPORTED_MODULE_8__["default"]
+      }))));
     }
   }]);
 

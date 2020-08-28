@@ -10,7 +10,7 @@ import CreateBillFormContainer from '../bill_form/create_bill_form_container';
 import CreateBillAllContainer from '../bill_form/create_bill_all_container';
 import CreateBillDashContainer from '../bill_form/create_bill_dash_container';
 import Plates from '../right_side/plates';
-import EditBillFormContainer from '../bill_form/edit_bill_form_container.jsx';
+
 
 
 
@@ -35,14 +35,15 @@ class Dashboard extends React.Component {
             </div>
             <div className='rightDash'>
                 <Switch>
-                    <Route exact path='/dashboard' component={Plates} />
-                    <Route path='/dashboard/all' component={BalanceContainer} />
-                    <Route path='/dashboard/:userId' component={FriendBalanceContainer} />
+                        <Route exact path='/dashboard' component={Plates} />
+                        <Route path='/dashboard/all' component={BalanceContainer} />
+                        <Route path='/dashboard/:userId' component={FriendBalanceContainer} />
                 </Switch>
-                    <CreateBillDashContainer />
-                    <CreateBillFormContainer />
-                    <CreateBillAllContainer />
-                    {/* <EditBillFormContainer /> */}
+                <Switch>
+                    <Route exact path='/dashboard/' component={CreateBillDashContainer} />
+                    <Route path='/dashboard/all' component={CreateBillAllContainer} />
+                    <Route path='/dashboard/:userId' component={CreateBillFormContainer} />
+                </Switch>
             </div>
         </div>
         )
