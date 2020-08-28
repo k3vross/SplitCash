@@ -4,6 +4,7 @@
 //     constructor(props) {
 //         super(props);
 //         this.state = this.props.bill
+//         this.state.amount = (this.state.amount / 100).toFixed(2)
 //         this.handleSubmit = this.handleSubmit.bind(this)
 //         this.handleClick = this.handleClick.bind(this)
 //         this.getName = this.getName.bind(this)
@@ -55,6 +56,7 @@
 
 //     render() {
 //         const { friendships, formType, currentUser, bill } = this.props
+//         debugger
 //         if (!bill) {
 //             return null
 //         }

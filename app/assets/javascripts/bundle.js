@@ -529,8 +529,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
-/* harmony import */ var _bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../bill_form/edit_bill_form_container.jsx */ "./frontend/components/bill_form/edit_bill_form_container.jsx");
-/* harmony import */ var _bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -554,8 +552,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-
-
+ // import EditBillFormContainer from '../bill_form/edit_bill_form_container.jsx';
 
 var BillIndexItem = /*#__PURE__*/function (_React$Component) {
   _inherits(BillIndexItem, _React$Component);
@@ -568,6 +565,9 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, BillIndexItem);
 
     _this = _super.call(this, props);
+    _this.state = {
+      redirect: null
+    };
     _this.payer = _this.payer.bind(_assertThisInitialized(_this));
     _this.payee = _this.payee.bind(_assertThisInitialized(_this));
     _this.getDate = _this.getDate.bind(_assertThisInitialized(_this));
@@ -669,13 +669,19 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
     key: "modalClick",
     value: function modalClick(e) {
       e.preventDefault();
-      var open = document.getElementsByClassName('modal2')[0];
-      open.classList.add('is-open');
+      this.setState({
+        redirect: true
+      }); // let open = document.getElementsByClassName('modal2')[0]
+      // open.classList.add('is-open')
     }
   }, {
     key: "render",
     value: function render() {
-      var bill = this.props.bill;
+      var bill = this.props.bill; // let editForm = null
+      // if (this.state.redirect) {
+      //     editForm = <EditBillFormContainer bill={bill} />
+      // }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "billIndexItem"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -1336,46 +1342,6 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/bill_form/edit_bill_form_container.jsx":
-/*!********************************************************************!*\
-  !*** ./frontend/components/bill_form/edit_bill_form_container.jsx ***!
-  \********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// import React from 'react';
-// import { connect } from 'react-redux';
-// import { getBill, updateBill } from '../../actions/bill_actions';
-// import EditAllBillForm from './edit_all_bill_form';
-// class TempEditBillForm extends React.Component {
-//     render() {
-//         const { action, formType, bill, friendships, currentUser } = this.props;
-//         if (!bill) return null;
-//         return (
-//             <EditAllBillForm
-//                 action = { action }
-//                 formType = { formType }
-//                 bill = { bill }
-//                 friendships = { friendships }
-//                 currentUser = {currentUser} />
-//         )
-//     }
-// }
-// const mSTP = (state, ownProps) => {
-//     return {
-//         bill: ownProps.bill,
-//         formType: 'Edit Bill',
-//         friendships: Object.values(state.entities.friendships),
-//         currentUser: state.entities.users[state.session.id]
-// }}
-// const mDTP = dispatch => ({
-//     getBill: billId => dispatch(getBill(billId)),
-//     action: bill => dispatch(updateBill(bill))
-// })
-// export default connect(mSTP, mDTP)(TempEditBillForm)
-
-/***/ }),
-
 /***/ "./frontend/components/bills/bills_container.js":
 /*!******************************************************!*\
   !*** ./frontend/components/bills/bills_container.js ***!
@@ -1490,6 +1456,12 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this = this;
+
+      var currentUser = this.props.currentUser;
+
+      if (!currentUser) {
+        return null;
+      }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "transactionHeader"

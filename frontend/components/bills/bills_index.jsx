@@ -7,6 +7,7 @@ class BillsIndex extends React.Component {
     }
 
     componentDidMount() {
+        
         this.props.getAllRequests(this.props.currentUser.all_friends)
         this.props.getAllBills(this.props.currentUser.all_bills)
     }
@@ -18,6 +19,10 @@ class BillsIndex extends React.Component {
     }
 
     render() {
+        const {currentUser} = this.props
+        if (!currentUser) {
+            return null
+        }
         return (
             <div>
                 <div className='transactionHeader'>

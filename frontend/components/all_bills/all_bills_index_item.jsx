@@ -1,11 +1,14 @@
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
-import EditBillFormContainer from '../bill_form/edit_bill_form_container.jsx';
+// import EditBillFormContainer from '../bill_form/edit_bill_form_container.jsx';
 
 
 class BillIndexItem extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            redirect: null
+        }
         this.payer = this.payer.bind(this)
         this.payee = this.payee.bind(this)
         this.getDate = this.getDate.bind(this)
@@ -86,13 +89,18 @@ class BillIndexItem extends React.Component {
 
     modalClick(e) {
         e.preventDefault();
-        let open = document.getElementsByClassName('modal2')[0]
-        open.classList.add('is-open')
+        this.setState({redirect: true})
+        // let open = document.getElementsByClassName('modal2')[0]
+        // open.classList.add('is-open')
     }
 
 
     render() {
         const { bill } = this.props
+        // let editForm = null
+        // if (this.state.redirect) {
+        //     editForm = <EditBillFormContainer bill={bill} />
+        // }
         return (
             <li >
                 <div className='billIndexItem'>
@@ -108,7 +116,7 @@ class BillIndexItem extends React.Component {
                         </div>
                         <div className='editBill'>
                             <button onClick={this.modalClick} className='editBillBtn'>Edit Bill</button>
-                            {/* <EditBillFormContainer bill={bill} /> */}
+                            {/* {editForm} */}
                         </div>
                         <div className='deleteBill'>
                             <FaTimes onClick={this.handleClick} />

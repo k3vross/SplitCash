@@ -14,6 +14,7 @@ import Plates from '../right_side/plates';
 
 
 
+
 class Dashboard extends React.Component {
     constructor(props) {
         super(props)
