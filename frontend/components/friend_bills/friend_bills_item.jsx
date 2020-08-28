@@ -96,6 +96,9 @@ class FriendBillItem extends React.Component {
                         <div className='billPayee'>
                             <p className='billPayerName'>{this.payee()}</p> <p className={this.color()} >${((this.props.bill.amount / 100.00) / 2).toFixed(2)}</p>
                         </div>
+                        <div className='editBill'>
+                            <button className='editBillBtn'> Edit Bill</button>
+                        </div>
                         <div className='deleteBill'>
                             <FaTimes onClick={this.handleClick} />
                         </div>

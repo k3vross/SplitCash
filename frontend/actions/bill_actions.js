@@ -1,4 +1,4 @@
-import { postBill, fetchBills, deleteBill } from '../util/bill_api_util';
+import { postBill, fetchBills, deleteBill, fetchBill, editBill } from '../util/bill_api_util';
 
 export const RECEIVE_ALL_BILLS = 'RECEIVE_ALL_BILLS';
 export const RECEIVE_BILL = 'RECEIVE_BILL';
@@ -24,9 +24,19 @@ export const createBill = bill => dispatch => {
         .then(bill => dispatch(receiveBill(bill)))
 }
 
+export const getBill = billId => dispatch => {
+    return fetchBill(billId)
+        .then(bill => dispatch(receiveBill(bill)))
+}
+
 export const getAllBills = billIds => dispatch => {
     return fetchBills(billIds)
         .then(bills => dispatch(receiveAllBills(bills)))
+}
+
+export const updateBill = bill => dispatch => {
+    return editBill(bill)
+        .then(bill => dispatch(receiveBill(bill)))
 }
 
 export const clearBill = billId => dispatch => {

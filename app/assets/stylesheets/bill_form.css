@@ -14,6 +14,7 @@
 
 .formNames {
     border-bottom: 1px solid rgb(238, 238, 238);
+    padding: 10px;
 }
 
 .formNames > p {
@@ -106,3 +107,4 @@
     cursor: pointer;
     background-color: #cfcfcf;
 }
+

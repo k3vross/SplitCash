@@ -107,3 +107,35 @@
     max-height: 40px;
     margin-left: 30px;
 }
+
+.editBill {
+    font-family: sans-serif;
+    display: flex;
+    margin-right: 30px;
+    align-items: center;
+    border: 1px solid white;
+    padding: 2px 4px 2px 4px;
+    border-radius: 10px;
+}
+
+.editBillBtn {
+    color: white;
+}
+
+
+
+.editBillBtn:hover {
+    cursor: pointer;
+    
+}
+
+.billIndexItem:hover > span > .editBill > button {
+    color: white;
+    cursor: pointer;
+    background-color: #ff652f;
+}
+
+.billIndexItem:hover > span > .editBill {
+    border-color: #c75b34;
+    background-color: #ff652f;
+}

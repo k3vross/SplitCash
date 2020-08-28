@@ -90,7 +90,7 @@
 /*!******************************************!*\
   !*** ./frontend/actions/bill_actions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_ALL_BILLS, RECEIVE_BILL, REMOVE_BILL, createBill, getAllBills, clearBill */
+/*! exports provided: RECEIVE_ALL_BILLS, RECEIVE_BILL, REMOVE_BILL, createBill, getBill, getAllBills, updateBill, clearBill */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -99,7 +99,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_BILL", function() { return RECEIVE_BILL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_BILL", function() { return REMOVE_BILL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBill", function() { return createBill; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBill", function() { return getBill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllBills", function() { return getAllBills; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateBill", function() { return updateBill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearBill", function() { return clearBill; });
 /* harmony import */ var _util_bill_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/bill_api_util */ "./frontend/util/bill_api_util.jsx");
 
@@ -135,10 +137,24 @@ var createBill = function createBill(bill) {
     });
   };
 };
+var getBill = function getBill(billId) {
+  return function (dispatch) {
+    return Object(_util_bill_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchBill"])(billId).then(function (bill) {
+      return dispatch(receiveBill(bill));
+    });
+  };
+};
 var getAllBills = function getAllBills(billIds) {
   return function (dispatch) {
     return Object(_util_bill_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchBills"])(billIds).then(function (bills) {
       return dispatch(receiveAllBills(bills));
+    });
+  };
+};
+var updateBill = function updateBill(bill) {
+  return function (dispatch) {
+    return Object(_util_bill_api_util__WEBPACK_IMPORTED_MODULE_0__["editBill"])(bill).then(function (bill) {
+      return dispatch(receiveBill(bill));
     });
   };
 };
@@ -513,6 +529,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var _bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../bill_form/edit_bill_form_container.jsx */ "./frontend/components/bill_form/edit_bill_form_container.jsx");
+/* harmony import */ var _bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -538,6 +556,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var BillIndexItem = /*#__PURE__*/function (_React$Component) {
   _inherits(BillIndexItem, _React$Component);
 
@@ -554,6 +573,7 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
     _this.getDate = _this.getDate.bind(_assertThisInitialized(_this));
     _this.color = _this.color.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.modalClick = _this.modalClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -646,8 +666,16 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
       clearBill(bill.id);
     }
   }, {
+    key: "modalClick",
+    value: function modalClick(e) {
+      e.preventDefault();
+      var open = document.getElementsByClassName('modal2')[0];
+      open.classList.add('is-open');
+    }
+  }, {
     key: "render",
     value: function render() {
+      var bill = this.props.bill;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "billIndexItem"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -667,6 +695,11 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
       }, this.payee()), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: this.color()
       }, "$", (this.props.bill.amount / 100.00 / 2).toFixed(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "editBill"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.modalClick,
+        className: "editBillBtn"
+      }, "Edit Bill")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "deleteBill"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaTimes"], {
         onClick: this.handleClick
@@ -919,10 +952,10 @@ var BillForm = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/bill_form/create_bill_dash_container.js":
-/*!*********************************************************************!*\
-  !*** ./frontend/components/bill_form/create_bill_dash_container.js ***!
-  \*********************************************************************/
+/***/ "./frontend/components/bill_form/create_bill_all_container.js":
+/*!********************************************************************!*\
+  !*** ./frontend/components/bill_form/create_bill_all_container.js ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -949,6 +982,55 @@ var mSTP = function mSTP(state) {
       author_paid: 'y'
     },
     formType: 'Add a bill',
+    friendships: Object.values(state.entities.friendships)
+  };
+};
+
+var mDTP = function mDTP(dispatch) {
+  return {
+    action: function action(bill) {
+      return dispatch(Object(_actions_bill_actions__WEBPACK_IMPORTED_MODULE_1__["createBill"])(bill));
+    },
+    getAllRequests: function getAllRequests(requestIds) {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__["getAllRequests"])(requestIds));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_dash_bill_form__WEBPACK_IMPORTED_MODULE_2__["default"])));
+
+/***/ }),
+
+/***/ "./frontend/components/bill_form/create_bill_dash_container.js":
+/*!*********************************************************************!*\
+  !*** ./frontend/components/bill_form/create_bill_dash_container.js ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_bill_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/bill_actions */ "./frontend/actions/bill_actions.js");
+/* harmony import */ var _dash_bill_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dash_bill_form */ "./frontend/components/bill_form/dash_bill_form.jsx");
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+
+
+
+var mSTP = function mSTP(state) {
+  return {
+    currentUser: state.entities.users[state.session.id],
+    bill: {
+      user_id: '',
+      description: "",
+      amount: 0.00,
+      author_paid: 'y'
+    },
+    formType: 'Add a Bill',
     friendships: Object.values(state.entities.friendships)
   };
 };
@@ -1068,6 +1150,7 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
     _this.state = _this.props.bill;
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.getName = _this.getName.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1076,12 +1159,21 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
     value: function handleSubmit(e) {
       var _this2 = this;
 
+      var formType = this.props.formType;
       e.preventDefault();
       var open = document.getElementsByClassName('modal')[0];
       open.classList.remove('is-open');
-      this.props.action(this.state).then(function () {
-        return _this2.props.history.push("/dashboard/all");
-      });
+
+      if (formType === 'Add a bill') {
+        this.props.action(this.state).then(function () {
+          return _this2.props.history.push("/dashboard/all");
+        });
+      } else {
+        this.props.action(this.state).then(function () {
+          return _this2.props.history.push("/dashboard/");
+        });
+      }
+
       this.setState({
         user_id: '',
         description: '',
@@ -1136,6 +1228,20 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "getName",
+    value: function getName() {
+      var _this4 = this;
+
+      var friendships = this.props.friendships;
+      return friendships.map(function (friendship) {
+        if (_this4.state.user_id === friendship.recipient_id) {
+          return friendship.recipientName;
+        } else if (_this4.state.user_id === friendship.requester_id) {
+          return friendship.requesterName;
+        }
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -1159,15 +1265,21 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, formType)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "formNames"
       }, "With you and ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "selector",
         value: this.state.user_id,
         onChange: this.update('user_id')
-      }, friendships.map(function (friendship) {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "",
+        disabled: true
+      }, "Select a friend"), friendships.map(function (friendship) {
         if (currentUser.id === friendship.requester_id) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            key: friendship.id,
             value: friendship.recipient_id
           }, friendship.recipientName);
         } else {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            key: friendship.id,
             value: friendship.requester_id
           }, friendship.requesterName);
         }
@@ -1202,7 +1314,7 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
         value: "y"
       }, "you"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "n"
-      }, "them")), " and split equally", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$", (this.state.amount / 2).toFixed(2), " / person", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.getName())), " and split equally", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$", (this.state.amount / 2).toFixed(2), " / person", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "billBtn"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleClick,
@@ -1221,6 +1333,46 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
 
 
 /* harmony default export */ __webpack_exports__["default"] = (DashBillForm);
+
+/***/ }),
+
+/***/ "./frontend/components/bill_form/edit_bill_form_container.jsx":
+/*!********************************************************************!*\
+  !*** ./frontend/components/bill_form/edit_bill_form_container.jsx ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// import React from 'react';
+// import { connect } from 'react-redux';
+// import { getBill, updateBill } from '../../actions/bill_actions';
+// import EditAllBillForm from './edit_all_bill_form';
+// class TempEditBillForm extends React.Component {
+//     render() {
+//         const { action, formType, bill, friendships, currentUser } = this.props;
+//         if (!bill) return null;
+//         return (
+//             <EditAllBillForm
+//                 action = { action }
+//                 formType = { formType }
+//                 bill = { bill }
+//                 friendships = { friendships }
+//                 currentUser = {currentUser} />
+//         )
+//     }
+// }
+// const mSTP = (state, ownProps) => {
+//     return {
+//         bill: ownProps.bill,
+//         formType: 'Edit Bill',
+//         friendships: Object.values(state.entities.friendships),
+//         currentUser: state.entities.users[state.session.id]
+// }}
+// const mDTP = dispatch => ({
+//     getBill: billId => dispatch(getBill(billId)),
+//     action: bill => dispatch(updateBill(bill))
+// })
+// export default connect(mSTP, mDTP)(TempEditBillForm)
 
 /***/ }),
 
@@ -1328,6 +1480,13 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
       this.props.getAllBills(this.props.currentUser.all_bills);
     }
   }, {
+    key: "handleClick",
+    value: function handleClick(e) {
+      e.preventDefault();
+      var open = document.getElementsByClassName('modal')[0];
+      open.classList.add('is-open');
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this = this;
@@ -1335,6 +1494,7 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "transactionHeader"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Balances"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleClick,
         className: "formSubmit"
       }, "Add Expense"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "demoBtn"
@@ -1585,7 +1745,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _friend_bills_friend_bills_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../friend_bills/friend_bills_container */ "./frontend/components/friend_bills/friend_bills_container.js");
 /* harmony import */ var _friend_balance_friend_balance_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../friend_balance/friend_balance_container */ "./frontend/components/friend_balance/friend_balance_container.js");
 /* harmony import */ var _bill_form_create_bill_form_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../bill_form/create_bill_form_container */ "./frontend/components/bill_form/create_bill_form_container.js");
-/* harmony import */ var _bill_form_create_bill_dash_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../bill_form/create_bill_dash_container */ "./frontend/components/bill_form/create_bill_dash_container.js");
+/* harmony import */ var _bill_form_create_bill_all_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../bill_form/create_bill_all_container */ "./frontend/components/bill_form/create_bill_all_container.js");
+/* harmony import */ var _bill_form_create_bill_dash_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../bill_form/create_bill_dash_container */ "./frontend/components/bill_form/create_bill_dash_container.js");
+/* harmony import */ var _right_side_plates__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../right_side/plates */ "./frontend/components/right_side/plates.jsx");
+/* harmony import */ var _bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../bill_form/edit_bill_form_container.jsx */ "./frontend/components/bill_form/edit_bill_form_container.jsx");
+/* harmony import */ var _bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_bill_form_edit_bill_form_container_jsx__WEBPACK_IMPORTED_MODULE_12__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1607,6 +1771,9 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
 
 
 
@@ -1651,22 +1818,16 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rightDash"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+        exact: true,
+        path: "/dashboard",
+        component: _right_side_plates__WEBPACK_IMPORTED_MODULE_11__["default"]
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/dashboard/all",
         component: _right_side_balance_container__WEBPACK_IMPORTED_MODULE_4__["default"]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/dashboard/:userId",
         component: _friend_balance_friend_balance_container__WEBPACK_IMPORTED_MODULE_7__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        path: "/dashboard",
-        component: _right_side_balance_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        exact: true,
-        path: "/dashboard/all",
-        component: _bill_form_create_bill_dash_container__WEBPACK_IMPORTED_MODULE_9__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
-        path: "/dashboard/:userId",
-        component: _bill_form_create_bill_form_container__WEBPACK_IMPORTED_MODULE_8__["default"]
-      }))));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bill_form_create_bill_dash_container__WEBPACK_IMPORTED_MODULE_10__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bill_form_create_bill_form_container__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bill_form_create_bill_all_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
     }
   }]);
 
@@ -2230,6 +2391,10 @@ var FriendBillItem = /*#__PURE__*/function (_React$Component) {
       }, this.payee()), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: this.color()
       }, "$", (this.props.bill.amount / 100.00 / 2).toFixed(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "editBill"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "editBillBtn"
+      }, " Edit Bill")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "deleteBill"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaTimes"], {
         onClick: this.handleClick
@@ -2424,7 +2589,9 @@ var FriendsIndexItem = /*#__PURE__*/function (_React$Component) {
   _createClass(FriendsIndexItem, [{
     key: "handleClick",
     value: function handleClick() {
-      this.props.clearRequest(this.props.friendship.id);
+      if (confirm("Are you sure you want to delete this friend? Their bills will stay in the 'All Transactions' section")) {
+        this.props.clearRequest(this.props.friendship.id);
+      }
     }
   }, {
     key: "render",
@@ -3016,6 +3183,40 @@ var mDTP = function mDTP(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_balance__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/right_side/plates.jsx":
+/*!***************************************************!*\
+  !*** ./frontend/components/right_side/plates.jsx ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+var Plates = function Plates() {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "plateDiv"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "plates",
+    src: window.images.plates,
+    alt: "plates"
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://apps.apple.com/us/app/plates-by-splitwise-split/id669801762?ign-mpt=uo%3D4",
+    target: "_blank"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "platesBtn"
+  }, "Download Plates")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Plates);
 
 /***/ }),
 
@@ -3780,13 +3981,15 @@ var configureStore = function configureStore() {
 /*!*****************************************!*\
   !*** ./frontend/util/bill_api_util.jsx ***!
   \*****************************************/
-/*! exports provided: postBill, fetchBills, deleteBill */
+/*! exports provided: postBill, fetchBill, fetchBills, editBill, deleteBill */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postBill", function() { return postBill; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchBill", function() { return fetchBill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchBills", function() { return fetchBills; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "editBill", function() { return editBill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteBill", function() { return deleteBill; });
 var postBill = function postBill(bill) {
   return $.ajax({
@@ -3797,12 +4000,27 @@ var postBill = function postBill(bill) {
     }
   });
 };
+var fetchBill = function fetchBill(billId) {
+  return $.ajax({
+    url: "/api/bills/".concat(billId),
+    method: 'GET'
+  });
+};
 var fetchBills = function fetchBills(billIds) {
   return $.ajax({
     url: '/api/bills',
     method: 'GET',
     data: {
       billIds: billIds
+    }
+  });
+};
+var editBill = function editBill(bill) {
+  return $.ajax({
+    url: "/api/bills/".concat(bill.id),
+    method: 'PATCH',
+    data: {
+      bill: bill
     }
   });
 };

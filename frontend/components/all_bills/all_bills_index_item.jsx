@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
+import EditBillFormContainer from '../bill_form/edit_bill_form_container.jsx';
 
 
 class BillIndexItem extends React.Component {
@@ -10,6 +11,7 @@ class BillIndexItem extends React.Component {
         this.getDate = this.getDate.bind(this)
         this.color = this.color.bind(this)
         this.handleClick = this.handleClick.bind(this)
+        this.modalClick = this.modalClick.bind(this)
     }
 
     payer() {
@@ -82,8 +84,15 @@ class BillIndexItem extends React.Component {
         clearBill(bill.id)
     }
 
+    modalClick(e) {
+        e.preventDefault();
+        let open = document.getElementsByClassName('modal2')[0]
+        open.classList.add('is-open')
+    }
+
 
     render() {
+        const { bill } = this.props
         return (
             <li >
                 <div className='billIndexItem'>
@@ -96,6 +105,10 @@ class BillIndexItem extends React.Component {
                         </div>
                         <div className='billPayee'>
                             <p className='billPayerName'>{this.payee()}</p> <p className={this.color()} >${((this.props.bill.amount / 100.00) / 2).toFixed(2)}</p>
+                        </div>
+                        <div className='editBill'>
+                            <button onClick={this.modalClick} className='editBillBtn'>Edit Bill</button>
+                            {/* <EditBillFormContainer bill={bill} /> */}
                         </div>
                         <div className='deleteBill'>
                             <FaTimes onClick={this.handleClick} />

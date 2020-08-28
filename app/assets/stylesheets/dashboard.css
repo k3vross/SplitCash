@@ -215,3 +215,16 @@
     width: 300px;
 }
 
+.plates {
+    max-height: 250px;
+}
+
+.platesBtn {
+    font-size: 16px;
+    background: #ff652f;
+    color: white;
+    border-radius: 5px;
+    padding: 12px;
+    border: 1px solid #c83400;
+}
+

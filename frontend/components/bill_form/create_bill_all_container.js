@@ -7,8 +7,8 @@ import { withRouter } from 'react-router-dom';
 
 const mSTP = (state) => ({
     currentUser: state.entities.users[state.session.id],
-    bill: { user_id: '', description: "", amount: 0.00, author_paid: 'y' },
-    formType: 'Add a Bill',
+    bill: { user_id: '', description: "", amount: '', author_paid: 'y' },
+    formType: 'Add a bill',
     friendships: Object.values(state.entities.friendships)
 })
 

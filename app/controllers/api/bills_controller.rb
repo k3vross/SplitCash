@@ -23,6 +23,11 @@ class Api::BillsController < ApplicationController
         render :index
     end
 
+    def show
+        @bill = Bill.find_by(id: params[:id])
+        render :show
+    end
+
     def update
 
     end

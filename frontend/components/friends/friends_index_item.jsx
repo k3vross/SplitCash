@@ -9,7 +9,9 @@ class FriendsIndexItem extends React.Component {
     }
 
     handleClick() {
+        if (confirm("Are you sure you want to delete this friend? Their bills will stay in the 'All Transactions' section")) {
         this.props.clearRequest(this.props.friendship.id)
+        }
     }
 
     render() {

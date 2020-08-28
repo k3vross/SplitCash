@@ -11,12 +11,18 @@ class BillsIndex extends React.Component {
         this.props.getAllBills(this.props.currentUser.all_bills)
     }
 
+    handleClick(e) {
+        e.preventDefault();
+        let open = document.getElementsByClassName('modal')[0]
+        open.classList.add('is-open')
+    }
+
     render() {
         return (
             <div>
                 <div className='transactionHeader'>
                     <h2>Balances</h2>
-                    <button className='formSubmit'>Add Expense</button>
+                    <button onClick={this.handleClick} className='formSubmit'>Add Expense</button>
                     <button className="demoBtn">Settle Up</button>
                 </div>
                 <ul>

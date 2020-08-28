@@ -50,3 +50,52 @@
 .modal-form > p {
   margin: 0 0 20px 0;
 }
+
+.modal2 {
+  display: block;
+}
+
+.modal2-screen {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.modal2-form {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  margin-left: -220px;
+  width: 360px;
+  background: #fff;
+  z-index: 3;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17)
+
+}
+
+.modal2-close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 36px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal2-close:hover {
+  color: #f00;
+}
+
+.modal2-form > h1 {
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.modal2-form > p {
+  margin: 0 0 20px 0;
+}
