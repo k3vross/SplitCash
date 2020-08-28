@@ -1,7 +1,8 @@
-# README
+# SplitCash ![SplitCash]
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+https://github.com/k3vross/SplitCash/blob/master/app/assets/images/sc_logo.png
+
+SplitCash is a single page webapp designed to help you keep track of money you owe and money you are owed in an easy to use and straightforward interface. Create transactions between friends, and the app will automatically split the amount and keep a running total of how much o
 
 Things you may want to cover:
 
