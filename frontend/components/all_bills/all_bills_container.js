@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import AllBillsIndex from './all_bills_index';
-import { getAllBills } from '../../actions/bill_actions';
+import { getAllBills, clearBill } from '../../actions/bill_actions';
 
 const mSTP = state => ({
     currentUser: state.entities.users[state.session.id],

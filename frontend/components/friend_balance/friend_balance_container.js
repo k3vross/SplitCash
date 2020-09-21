@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { clearRequest } from '../../actions/friend_actions';
 import FriendBalance from './friend_balance';
 import { getAllBills } from '../../actions/bill_actions';
+import { withRouter } from "react-router-dom";
 
 const mSTP = (state, ownProps) => ({
     currentUser: state.entities.users[state.session.id],
@@ -14,7 +15,7 @@ const mDTP = dispatch => ({
     getAllBills: billIds => dispatch(getAllBills(billIds))
 })
 
-export default connect(mSTP, mDTP)(FriendBalance)
+export default withRouter(connect(mSTP, mDTP)(FriendBalance));
 
 
 // cannot refresh on a user page

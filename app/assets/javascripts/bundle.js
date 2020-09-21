@@ -403,19 +403,9 @@ var mDTP = function mDTP(dispatch) {
     getAllBills: function getAllBills(billIds) {
       return dispatch(Object(_actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__["getAllBills"])(billIds));
     },
-    clearBill: function (_clearBill) {
-      function clearBill(_x) {
-        return _clearBill.apply(this, arguments);
-      }
-
-      clearBill.toString = function () {
-        return _clearBill.toString();
-      };
-
-      return clearBill;
-    }(function (billId) {
-      return dispatch(clearBill(billId));
-    })
+    clearBill: function clearBill(billId) {
+      return dispatch(Object(_actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__["clearBill"])(billId));
+    }
   };
 };
 
@@ -497,9 +487,7 @@ var AllBillsIndex = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "All Expenses"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleClick,
         className: "formSubmit"
-      }, "Add Expense"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "demoBtn"
-      }, "Settle Up")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.bills.map(function (bill) {
+      }, "Add Expense")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.bills.map(function (bill) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_all_bills_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: bill.id,
           currentUser: _this2.props.currentUser,
@@ -834,12 +822,14 @@ var BillForm = /*#__PURE__*/function (_React$Component) {
 
       var friend = this.props.friend;
       e.preventDefault();
+      this.state.user_id = friend.id;
       var open = document.getElementsByClassName('modal')[0];
       open.classList.remove('is-open');
       this.props.action(this.state).then(function () {
         return _this2.props.history.push("/dashboard/".concat(friend.id));
       });
       this.setState({
+        user_id: this.props.match.params.userId,
         description: "",
         amount: '',
         author_paid: 'y'
@@ -1169,6 +1159,7 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
       e.preventDefault();
       var open = document.getElementsByClassName('modal')[0];
       open.classList.remove('is-open');
+      console.log(this.props);
 
       if (formType === 'Add a bill') {
         this.props.action(this.state).then(function () {
@@ -1335,8 +1326,7 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return DashBillForm;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component); // bill: { user_id: null, friend_id: null, description: "", amount: 0, author_paid: null },
-
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (DashBillForm);
 
@@ -1354,6 +1344,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _bills_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bills_index */ "./frontend/components/bills/bills_index.jsx");
 /* harmony import */ var _actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/bill_actions */ "./frontend/actions/bill_actions.js");
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+
 
 
 
@@ -1371,19 +1363,9 @@ var mDTP = function mDTP(dispatch) {
     getAllBills: function getAllBills(billIds) {
       return dispatch(Object(_actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__["getAllBills"])(billIds));
     },
-    getAllRequests: function (_getAllRequests) {
-      function getAllRequests(_x) {
-        return _getAllRequests.apply(this, arguments);
-      }
-
-      getAllRequests.toString = function () {
-        return _getAllRequests.toString();
-      };
-
-      return getAllRequests;
-    }(function (requestIds) {
-      return dispatch(getAllRequests(requestIds));
-    })
+    getAllRequests: function getAllRequests(requestIds) {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__["getAllRequests"])(requestIds));
+    }
   };
 };
 
@@ -1468,9 +1450,7 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Balances"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleClick,
         className: "formSubmit"
-      }, "Add Expense"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "demoBtn"
-      }, "Settle Up")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.friendships.map(function (friendship) {
+      }, "Add Expense")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.friendships.map(function (friendship) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bills_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: friendship.id,
           clearBill: _this.props.clearBill,
@@ -1930,13 +1910,13 @@ var FriendBalance = /*#__PURE__*/function (_React$Component) {
       }
 
       this.getFriendBills().forEach(function (bill) {
-        if (bill.user_id === currentUser.id && bill.author_paid === 'y') {
+        if (bill.authorName === currentUser.username && bill.author_paid === 'y') {
           owed += parseFloat((bill.amount / 200).toFixed(2));
-        } else if (bill.user_id === currentUser.id && bill.author_paid === 'n') {
+        } else if (bill.authorName === currentUser.username && bill.author_paid === 'n') {
           owe += parseFloat((bill.amount / 200).toFixed(2));
-        } else if (bill.user_id !== currentUser.id && bill.author_paid === 'y') {
+        } else if (bill.authorName !== currentUser.username && bill.author_paid === 'y') {
           owe += parseFloat((bill.amount / 200).toFixed(2));
-        } else if (bill.user_id !== currentUser.id && bill.author_paid === 'n') {
+        } else if (bill.authorName !== currentUser.username && bill.author_paid === 'n') {
           owed += parseFloat((bill.amount / 200).toFixed(2));
         }
       });
@@ -1956,18 +1936,6 @@ var FriendBalance = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.balanceCalc();
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (prevProps !== this.props) {
-        this.balanceCalc();
-      }
-    }
-  }, {
     key: "totalType",
     value: function totalType() {
       var friend = this.props.friend;
@@ -1984,6 +1952,18 @@ var FriendBalance = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "red"
         }, "You owe ".concat(friend.username), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "$", Math.abs(this.state.total).toFixed(2)));
+      }
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.balanceCalc();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps !== this.props) {
+        this.balanceCalc();
       }
     }
   }, {
@@ -2019,6 +1999,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
 /* harmony import */ var _friend_balance__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./friend_balance */ "./frontend/components/friend_balance/friend_balance.jsx");
 /* harmony import */ var _actions_bill_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/bill_actions */ "./frontend/actions/bill_actions.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 
 
 
@@ -2043,7 +2025,7 @@ var mDTP = function mDTP(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_friend_balance__WEBPACK_IMPORTED_MODULE_2__["default"])); // cannot refresh on a user page
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_friend_balance__WEBPACK_IMPORTED_MODULE_2__["default"]))); // cannot refresh on a user page
 // component doesn't render new balance - force update or use a dummy method
 
 /***/ }),
@@ -2184,9 +2166,7 @@ var FriendBillsIndex = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, friend.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleClick,
         className: "formSubmit"
-      }, "Add Expense"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "demoBtn"
-      }, "Settle Up")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.getFriendBills().map(function (bill) {
+      }, "Add Expense")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.getFriendBills().map(function (bill) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_friend_bills_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: bill.id,
           clearBill: _this2.props.clearBill,

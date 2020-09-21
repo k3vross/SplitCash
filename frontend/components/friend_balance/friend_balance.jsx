@@ -33,13 +33,13 @@ class FriendBalance extends React.Component {
             return null
         }
         this.getFriendBills().forEach(bill => {
-            if ((bill.user_id === currentUser.id) && (bill.author_paid === 'y')) {
+            if ((bill.authorName === currentUser.username) && (bill.author_paid === 'y')) {
                 owed += parseFloat((bill.amount / 200).toFixed(2))
-            } else if ((bill.user_id === currentUser.id) && (bill.author_paid === 'n')) {
+            } else if ((bill.authorName === currentUser.username) && (bill.author_paid === 'n')) {
                 owe += parseFloat((bill.amount / 200).toFixed(2))
-            } else if ((bill.user_id !== currentUser.id) && (bill.author_paid === 'y')) {
+            } else if ((bill.authorName !== currentUser.username) && (bill.author_paid === 'y')) {
                 owe += parseFloat((bill.amount / 200).toFixed(2))
-            } else if ((bill.user_id !== currentUser.id) && (bill.author_paid === 'n')) {
+            } else if ((bill.authorName !== currentUser.username) && (bill.author_paid === 'n')) {
                 owed += parseFloat((bill.amount / 200).toFixed(2))
             }
         })
@@ -62,7 +62,7 @@ class FriendBalance extends React.Component {
             return <div className="red">{`You owe ${friend.username}`} <p>${Math.abs(this.state.total).toFixed(2)}</p></div>
         }
     }
-    
+
     componentDidMount() {
         this.balanceCalc()
     }

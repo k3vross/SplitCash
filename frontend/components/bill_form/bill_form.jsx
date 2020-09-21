@@ -11,10 +11,11 @@ class BillForm extends React.Component {
     handleSubmit(e) {
         const { friend } = this.props
         e.preventDefault()
+        this.state.user_id = friend.id;
         let open = document.getElementsByClassName('modal')[0]
         open.classList.remove('is-open')
         this.props.action(this.state).then(() => this.props.history.push(`/dashboard/${friend.id}`))
-        this.setState({ description: "", amount: '', author_paid: 'y'})
+        this.setState({ user_id: this.props.match.params.userId, description: "", amount: '', author_paid: 'y'})
     }
 
     update(field) {

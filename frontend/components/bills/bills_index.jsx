@@ -28,7 +28,6 @@ class BillsIndex extends React.Component {
                 <div className='transactionHeader'>
                     <h2>Balances</h2>
                     <button onClick={this.handleClick} className='formSubmit'>Add Expense</button>
-                    <button className="demoBtn">Settle Up</button>
                 </div>
                 <ul>
                     {this.props.friendships.map(friendship => (

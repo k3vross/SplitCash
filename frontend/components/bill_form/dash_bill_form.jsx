@@ -11,9 +11,10 @@ class DashBillForm extends React.Component {
 
     handleSubmit(e) {
         const { formType } = this.props
-        e.preventDefault()
+        e.preventDefault()  
         let open = document.getElementsByClassName('modal')[0]
         open.classList.remove('is-open')
+        console.log(this.props)
         if (formType === 'Add a bill') {
             this.props.action(this.state).then(() => this.props.history.push(`/dashboard/all`))
         } else {
@@ -70,7 +71,7 @@ class DashBillForm extends React.Component {
                             <option value="" disabled>Select a friend</option>
                             {friendships.map(friendship => {
                                 if (currentUser.id === friendship.requester_id) {
-                                    return <option key={friendship.id}value={friendship.recipient_id}>{friendship.recipientName}</option>
+                                    return <option key={friendship.id} value={friendship.recipient_id}>{friendship.recipientName}</option>
                                 } else {
                                     return <option key={friendship.id} value={friendship.requester_id}>{friendship.requesterName}</option>
                                 }
@@ -120,7 +121,5 @@ class DashBillForm extends React.Component {
         )
     }
 }
-
-// bill: { user_id: null, friend_id: null, description: "", amount: 0, author_paid: null },
 
 export default DashBillForm
