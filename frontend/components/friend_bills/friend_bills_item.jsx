@@ -1,15 +1,20 @@
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
+import CommentsContainer from '../comments/comments_container';
 
 
 class FriendBillItem extends React.Component {
     constructor(props) {
         super(props)
-        this.payer = this.payer.bind(this)
-        this.payee = this.payee.bind(this)
-        this.getDate = this.getDate.bind(this)
-        this.color = this.color.bind(this)
-        this.handleClick = this.handleClick.bind(this)
+        this.state = {
+            detailsOpen: false
+        }
+        this.payer = this.payer.bind(this);
+        this.payee = this.payee.bind(this);
+        this.getDate = this.getDate.bind(this);
+        this.color = this.color.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.openDetails = this.openDetails.bind(this);
     }
 
     payer() {
@@ -67,7 +72,7 @@ class FriendBillItem extends React.Component {
             '11': "NOV",
             "12": "DEC"
         }
-        let date = bill.updated_at
+        let date = bill.created_at
         let month = date.slice(5, 7)
         let day = date.slice(8, 10)
         return (
@@ -77,15 +82,24 @@ class FriendBillItem extends React.Component {
         )
     }
 
-    handleClick() {
+    handleClick(e) {
+        e.stopPropagation()
         const { bill, clearBill } = this.props
         clearBill(bill.id)
+    }
+
+    openDetails() {
+        if (!this.state.detailsOpen) {
+            this.setState({ detailsOpen: true })
+        } else {
+            this.setState({ detailsOpen: false });
+        }
     }
 
     render() {
         return (
             <li >
-                <div className='billIndexItem'>
+                <div onClick={this.openDetails}className='billIndexItem'>
                     <span className='billLeft'>
                         {this.getDate()} <p>{this.props.bill.description}</p>
                     </span>
@@ -96,13 +110,13 @@ class FriendBillItem extends React.Component {
                         <div className='billPayee'>
                             <p className='billPayerName'>{this.payee()}</p> <p className={this.color()} >${((this.props.bill.amount / 100.00) / 2).toFixed(2)}</p>
                         </div>
-                        <div className='editBill'>
-                            <button className='editBillBtn'> Edit Bill</button>
-                        </div>
                         <div className='deleteBill'>
                             <FaTimes onClick={this.handleClick} />
                         </div>
                     </span>
+                </div>
+                <div className={this.state.detailsOpen ? 'billDetailsOpen' : 'billDetailsClosed'}>
+                    <CommentsContainer bill={this.props.bill}/>
                 </div>
             </li>
         )

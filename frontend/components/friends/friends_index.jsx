@@ -7,10 +7,16 @@ class FriendsIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getAllRequests(this.props.currentUser.all_friends)
+        if (this.props.currentUser) {
+            this.props.getAllRequests(this.props.currentUser.all_friends)
+        }
     }
 
     render() {
+        const { friendships } = this.props;
+        if (!friendships) {
+            return null
+        }
         return (
             <div>
                 <ul className='friendList'>
@@ -19,7 +25,6 @@ class FriendsIndex extends React.Component {
                         currentUser={this.props.currentUser}
                         friendship={friendship} 
                         sendRequest={this.props.sendRequest} 
-                        clearRequest={this.props.clearRequest}
                         />
                     ))}
                 </ul>

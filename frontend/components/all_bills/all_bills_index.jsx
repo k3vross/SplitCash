@@ -8,7 +8,9 @@ class AllBillsIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getAllBills(this.props.currentUser.all_bills)
+        if (this.props.currentUser) {
+            this.props.getAllBills(this.props.currentUser.all_bills)
+        }
     }
 
     handleClick(e) {

@@ -228,3 +228,11 @@
     border: 1px solid #c83400;
 }
 
+.noTransactions {
+    text-align: center;
+    font-size: 40px;
+    color: lightgray;
+    font-family: sans-serif;
+    margin-top: 50px;
+    
+}

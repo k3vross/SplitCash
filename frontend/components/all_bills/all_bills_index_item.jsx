@@ -1,20 +1,20 @@
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
-// import EditBillFormContainer from '../bill_form/edit_bill_form_container.jsx';
+import CommentsContainer from '../comments/comments_container';
 
 
 class BillIndexItem extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            redirect: null
+            detailsOpen: false
         }
         this.payer = this.payer.bind(this)
         this.payee = this.payee.bind(this)
         this.getDate = this.getDate.bind(this)
         this.color = this.color.bind(this)
         this.handleClick = this.handleClick.bind(this)
-        this.modalClick = this.modalClick.bind(this)
+        this.openDetails = this.openDetails.bind(this)
     }
 
     payer() {
@@ -57,7 +57,7 @@ class BillIndexItem extends React.Component {
     }
 
     getDate() {
-        const { bill } = this.props
+        const { bill } = this.props;
         const monthName = {
             "01": "JAN",
             "02": "FEB",
@@ -72,7 +72,7 @@ class BillIndexItem extends React.Component {
             '11': "NOV",
             "12": "DEC"
         }
-        let date = bill.updated_at
+        let date = bill.created_at
         let month = date.slice(5, 7)
         let day = date.slice(8, 10)
         return (
@@ -82,46 +82,42 @@ class BillIndexItem extends React.Component {
         )
     }
 
-    handleClick() {
+    handleClick(e) {
+        e.stopPropagation();
         const { bill, clearBill } = this.props
         clearBill(bill.id)
     }
 
-    modalClick(e) {
-        e.preventDefault();
-        this.setState({redirect: true})
-        // let open = document.getElementsByClassName('modal2')[0]
-        // open.classList.add('is-open')
+    openDetails() {
+        if (!this.state.detailsOpen) {
+            this.setState({ detailsOpen: true })
+        } else {
+            this.setState({ detailsOpen: false });
+        }
     }
-
 
     render() {
         const { bill } = this.props
-        // let editForm = null
-        // if (this.state.redirect) {
-        //     editForm = <EditBillFormContainer bill={bill} />
-        // }
         return (
             <li >
-                <div className='billIndexItem'>
+                <div onClick={this.openDetails} className='billIndexItem'>
                     <span className='billLeft'>
-                        {this.getDate()} <p>{this.props.bill.description}</p>
+                        {this.getDate(bill.created_at)} <p>{bill.description}</p>
                     </span>
                     <span className='billRight'>
                         <div className='billPayer'>
-                            <p className='billPayerName'>{this.payer()}</p>  <p className='billPayerAmount'>${(this.props.bill.amount / 100.00).toFixed(2)}</p>
+                            <p className='billPayerName'>{this.payer()}</p>  <p className='billPayerAmount'>${(bill.amount / 100.00).toFixed(2)}</p>
                         </div>
                         <div className='billPayee'>
-                            <p className='billPayerName'>{this.payee()}</p> <p className={this.color()} >${((this.props.bill.amount / 100.00) / 2).toFixed(2)}</p>
-                        </div>
-                        <div className='editBill'>
-                            <button onClick={this.modalClick} className='editBillBtn'>Edit Bill</button>
-                            {/* {editForm} */}
+                            <p className='billPayerName'>{this.payee()}</p> <p className={this.color()} >${((bill.amount / 100.00) / 2).toFixed(2)}</p>
                         </div>
                         <div className='deleteBill'>
                             <FaTimes onClick={this.handleClick} />
                         </div>
                     </span>
+                </div>
+                <div className={this.state.detailsOpen ? 'billDetailsOpen' : 'billDetailsClosed'}>
+                    <CommentsContainer bill={this.props.bill} />
                 </div>
             </li>
         )

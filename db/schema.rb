@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_26_225554) do
+ActiveRecord::Schema.define(version: 2020_09_23_220709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,17 @@ ActiveRecord::Schema.define(version: 2020_08_26_225554) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "author_paid", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string "message", null: false
+    t.integer "author_id", null: false
+    t.integer "bill_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "author_name", null: false
+    t.index ["author_id"], name: "index_comments_on_author_id"
+    t.index ["bill_id"], name: "index_comments_on_bill_id"
   end
 
   create_table "friends", force: :cascade do |t|

@@ -12,6 +12,7 @@ class FriendBalance extends React.Component {
         this.balanceCalc = this.balanceCalc.bind(this)
         this.totalType = this.totalType.bind(this)
         this.getFriendBills = this.getFriendBills.bind(this)
+        this.handleClick = this.handleClick.bind(this)
     }
 
     getFriendBills() {
@@ -73,6 +74,12 @@ class FriendBalance extends React.Component {
         }
     }
 
+    handleClick() {
+        if (confirm("Are you sure you want to delete this friend? Their bills will stay in the 'All Transactions' section")) {
+            this.props.clearRequest(this.props.friendId)
+            this.props.history.push('/dashboard')
+        }
+    }
 
     render() {
         const { friend } = this.props
@@ -83,6 +90,9 @@ class FriendBalance extends React.Component {
             <div>
                 YOUR BALANCE WITH {friend.username}
                 {this.totalType()}
+                <div>
+                    <button className='removeFriendBtn' onClick={this.handleClick}>Remove This Friend</button>
+                </div>
             </div>
         )
     }
