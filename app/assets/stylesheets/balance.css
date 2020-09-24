@@ -25,3 +25,18 @@
     color: #ff652f;
     margin-top: 25px;
 }
+
+.removeFriendBtn {
+    margin-top: 25px;
+    color: white;
+    cursor: pointer;
+    background-color: #ff652f;
+    border-color: #c75b34;
+    border-radius: 5px;
+    padding: 5px;
+    height: 25px;
+}
+
+.removeFriendBtn:hover {
+    background-color: #c75b34;
+}

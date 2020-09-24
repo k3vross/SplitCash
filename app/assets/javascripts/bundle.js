@@ -168,6 +168,80 @@ var clearBill = function clearBill(billId) {
 
 /***/ }),
 
+/***/ "./frontend/actions/comment_actions.js":
+/*!*********************************************!*\
+  !*** ./frontend/actions/comment_actions.js ***!
+  \*********************************************/
+/*! exports provided: RECEIVE_COMMENTS, RECEIVE_COMMENT, REMOVE_COMMENT, getAllComments, getComment, createComment, clearComment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_COMMENTS", function() { return RECEIVE_COMMENTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_COMMENT", function() { return RECEIVE_COMMENT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_COMMENT", function() { return REMOVE_COMMENT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllComments", function() { return getAllComments; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getComment", function() { return getComment; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createComment", function() { return createComment; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearComment", function() { return clearComment; });
+/* harmony import */ var _util_comment_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/comment_api_util */ "./frontend/util/comment_api_util.js");
+
+var RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
+var RECEIVE_COMMENT = 'RECEIVE_COMMENT';
+var REMOVE_COMMENT = 'REMOVE_COMMENT';
+
+var receiveComments = function receiveComments(comments) {
+  return {
+    type: RECEIVE_COMMENTS,
+    comments: comments
+  };
+};
+
+var receiveComment = function receiveComment(comment) {
+  return {
+    type: RECEIVE_COMMENT,
+    comment: comment
+  };
+};
+
+var removeComment = function removeComment(comment) {
+  return {
+    type: REMOVE_COMMENT,
+    comment: comment
+  };
+};
+
+var getAllComments = function getAllComments() {
+  return function (dispatch) {
+    return _util_comment_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchAllComments"]().then(function (comments) {
+      return dispatch(receiveComments(comments));
+    });
+  };
+};
+var getComment = function getComment(commentId) {
+  return function (dispatch) {
+    return _util_comment_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchComment"](commentId).then(function (comment) {
+      return dispatch(receiveComment(comment));
+    });
+  };
+};
+var createComment = function createComment(comment) {
+  return function (dispatch) {
+    return _util_comment_api_util__WEBPACK_IMPORTED_MODULE_0__["postComment"](comment).then(function (comment) {
+      return dispatch(receiveComment(comment));
+    });
+  };
+};
+var clearComment = function clearComment(commentId) {
+  return function (dispatch) {
+    return _util_comment_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteComment"](commentId).then(function (comment) {
+      return dispatch(removeComment(comment));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/friend_actions.js":
 /*!********************************************!*\
   !*** ./frontend/actions/friend_actions.js ***!
@@ -468,7 +542,9 @@ var AllBillsIndex = /*#__PURE__*/function (_React$Component) {
   _createClass(AllBillsIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.getAllBills(this.props.currentUser.all_bills);
+      if (this.props.currentUser) {
+        this.props.getAllBills(this.props.currentUser.all_bills);
+      }
     }
   }, {
     key: "handleClick",
@@ -517,6 +593,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var _comments_comments_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../comments/comments_container */ "./frontend/components/comments/comments_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -540,7 +617,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
- // import EditBillFormContainer from '../bill_form/edit_bill_form_container.jsx';
+
+
 
 var BillIndexItem = /*#__PURE__*/function (_React$Component) {
   _inherits(BillIndexItem, _React$Component);
@@ -554,14 +632,14 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      redirect: null
+      detailsOpen: false
     };
     _this.payer = _this.payer.bind(_assertThisInitialized(_this));
     _this.payee = _this.payee.bind(_assertThisInitialized(_this));
     _this.getDate = _this.getDate.bind(_assertThisInitialized(_this));
     _this.color = _this.color.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    _this.modalClick = _this.modalClick.bind(_assertThisInitialized(_this));
+    _this.openDetails = _this.openDetails.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -634,7 +712,7 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
         '11': "NOV",
         "12": "DEC"
       };
-      var date = bill.updated_at;
+      var date = bill.created_at;
       var month = date.slice(5, 7);
       var day = date.slice(8, 10);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -647,34 +725,36 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleClick",
-    value: function handleClick() {
+    value: function handleClick(e) {
+      e.stopPropagation();
       var _this$props4 = this.props,
           bill = _this$props4.bill,
           clearBill = _this$props4.clearBill;
       clearBill(bill.id);
     }
   }, {
-    key: "modalClick",
-    value: function modalClick(e) {
-      e.preventDefault();
-      this.setState({
-        redirect: true
-      }); // let open = document.getElementsByClassName('modal2')[0]
-      // open.classList.add('is-open')
+    key: "openDetails",
+    value: function openDetails() {
+      if (!this.state.detailsOpen) {
+        this.setState({
+          detailsOpen: true
+        });
+      } else {
+        this.setState({
+          detailsOpen: false
+        });
+      }
     }
   }, {
     key: "render",
     value: function render() {
-      var bill = this.props.bill; // let editForm = null
-      // if (this.state.redirect) {
-      //     editForm = <EditBillFormContainer bill={bill} />
-      // }
-
+      var bill = this.props.bill;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.openDetails,
         className: "billIndexItem"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "billLeft"
-      }, this.getDate(), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.bill.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, this.getDate(bill.created_at), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, bill.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "billRight"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "billPayer"
@@ -682,22 +762,21 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
         className: "billPayerName"
       }, this.payer()), "  ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "billPayerAmount"
-      }, "$", (this.props.bill.amount / 100.00).toFixed(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "$", (bill.amount / 100.00).toFixed(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "billPayee"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "billPayerName"
       }, this.payee()), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: this.color()
-      }, "$", (this.props.bill.amount / 100.00 / 2).toFixed(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "editBill"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: this.modalClick,
-        className: "editBillBtn"
-      }, "Edit Bill")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "$", (bill.amount / 100.00 / 2).toFixed(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "deleteBill"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaTimes"], {
         onClick: this.handleClick
-      })))));
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.detailsOpen ? 'billDetailsOpen' : 'billDetailsClosed'
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_comments_comments_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        bill: this.props.bill
+      })));
     }
   }]);
 
@@ -1424,8 +1503,10 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
   _createClass(BillsIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.getAllRequests(this.props.currentUser.all_friends);
-      this.props.getAllBills(this.props.currentUser.all_bills);
+      if (this.props.currentUser) {
+        this.props.getAllRequests(this.props.currentUser.all_friends);
+        this.props.getAllBills(this.props.currentUser.all_bills);
+      }
     }
   }, {
     key: "handleClick",
@@ -1678,6 +1759,260 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
+/***/ "./frontend/components/comments/comment_index.jsx":
+/*!********************************************************!*\
+  !*** ./frontend/components/comments/comment_index.jsx ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _comment_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./comment_index_item */ "./frontend/components/comments/comment_index_item.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var CommentIndex = /*#__PURE__*/function (_React$Component) {
+  _inherits(CommentIndex, _React$Component);
+
+  var _super = _createSuper(CommentIndex);
+
+  function CommentIndex(props) {
+    var _this;
+
+    _classCallCheck(this, CommentIndex);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      message: ''
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.update = _this.update.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(CommentIndex, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.getAllComments();
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      this.props.createComment({
+        message: this.state.message,
+        author_id: this.props.userId,
+        bill_id: this.props.billId,
+        author_name: this.props.currentUser.username
+      });
+      this.setState({
+        message: ''
+      });
+    }
+  }, {
+    key: "update",
+    value: function update(e) {
+      this.setState({
+        message: e.currentTarget.value
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "commentContainer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "commentIndex"
+      }, this.props.comments.map(function (comment) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_comment_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          key: comment.id,
+          comment: comment,
+          authorName: _this2.props.authorName,
+          clearComment: _this2.props.clearComment,
+          userId: _this2.props.userId
+        });
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "commentForm",
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        onChange: this.update,
+        value: this.state.message,
+        placeholder: "Add a comment",
+        cols: "20",
+        rows: "4"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "commentBtn"
+      }, "Add Comment")));
+    }
+  }]);
+
+  return CommentIndex;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (CommentIndex);
+
+/***/ }),
+
+/***/ "./frontend/components/comments/comment_index_item.jsx":
+/*!*************************************************************!*\
+  !*** ./frontend/components/comments/comment_index_item.jsx ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var CommentIndexItem = /*#__PURE__*/function (_React$Component) {
+  _inherits(CommentIndexItem, _React$Component);
+
+  var _super = _createSuper(CommentIndexItem);
+
+  function CommentIndexItem() {
+    _classCallCheck(this, CommentIndexItem);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(CommentIndexItem, [{
+    key: "render",
+    value: function render() {
+      var _this = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "commentItemContainer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "commentItem"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "commentDate"
+      }, this.props.comment.createdAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "commentContent"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "commentAuthor"
+      }, "".concat(this.props.comment.author_name, ":     ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "commentMessage"
+      }, this.props.comment.message))), this.props.comment.author_id === this.props.userId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "clearCommentBtn",
+        onClick: function onClick() {
+          return _this.props.clearComment(_this.props.comment.id);
+        }
+      }, "x") : null);
+    }
+  }]);
+
+  return CommentIndexItem;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (CommentIndexItem);
+
+/***/ }),
+
+/***/ "./frontend/components/comments/comments_container.js":
+/*!************************************************************!*\
+  !*** ./frontend/components/comments/comments_container.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_comment_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/comment_actions */ "./frontend/actions/comment_actions.js");
+/* harmony import */ var _comment_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./comment_index */ "./frontend/components/comments/comment_index.jsx");
+
+
+
+
+var mSTP = function mSTP(state, ownProps) {
+  var billComments = [];
+  var comments = Object.values(state.entities.comments);
+
+  if (comments) {
+    comments.forEach(function (comment) {
+      if (ownProps.bill.id === comment.bill_id) {
+        billComments.push(comment);
+      }
+    });
+  }
+
+  return {
+    comments: billComments,
+    userId: state.session.id,
+    billId: ownProps.bill.id,
+    currentUser: state.entities.users[state.session.id]
+  };
+};
+
+var mDTP = function mDTP(dispatch) {
+  return {
+    getAllComments: function getAllComments() {
+      return dispatch(Object(_actions_comment_actions__WEBPACK_IMPORTED_MODULE_1__["getAllComments"])());
+    },
+    createComment: function createComment(comment) {
+      return dispatch(Object(_actions_comment_actions__WEBPACK_IMPORTED_MODULE_1__["createComment"])(comment));
+    },
+    clearComment: function clearComment(commentId) {
+      return dispatch(Object(_actions_comment_actions__WEBPACK_IMPORTED_MODULE_1__["clearComment"])(commentId));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_comment_index__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
 /***/ "./frontend/components/dashboard/dashboard.jsx":
 /*!*****************************************************!*\
   !*** ./frontend/components/dashboard/dashboard.jsx ***!
@@ -1878,6 +2213,7 @@ var FriendBalance = /*#__PURE__*/function (_React$Component) {
     _this.balanceCalc = _this.balanceCalc.bind(_assertThisInitialized(_this));
     _this.totalType = _this.totalType.bind(_assertThisInitialized(_this));
     _this.getFriendBills = _this.getFriendBills.bind(_assertThisInitialized(_this));
+    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1967,6 +2303,14 @@ var FriendBalance = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "handleClick",
+    value: function handleClick() {
+      if (confirm("Are you sure you want to delete this friend? Their bills will stay in the 'All Transactions' section")) {
+        this.props.clearRequest(this.props.friendId);
+        this.props.history.push('/dashboard');
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var friend = this.props.friend;
@@ -1975,7 +2319,10 @@ var FriendBalance = /*#__PURE__*/function (_React$Component) {
         return null;
       }
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "YOUR BALANCE WITH ", friend.username, this.totalType());
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "YOUR BALANCE WITH ", friend.username, this.totalType(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "removeFriendBtn",
+        onClick: this.handleClick
+      }, "Remove This Friend")));
     }
   }]);
 
@@ -2007,10 +2354,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mSTP = function mSTP(state, ownProps) {
+  var friendshipId;
+  var friendships = Object.values(state.entities.friendships);
+
+  if (friendships.length !== 0) {
+    friendships.forEach(function (friendship) {
+      if (parseInt(ownProps.match.params.userId) === friendship.requester_id || parseInt(ownProps.match.params.userId) === friendship.recipient_id) {
+        friendshipId = friendship.id;
+        return friendshipId;
+      }
+    });
+  }
+
   return {
     currentUser: state.entities.users[state.session.id],
     bills: Object.values(state.entities.bills),
-    friend: state.entities.users[ownProps.match.params.userId]
+    friend: state.entities.users[ownProps.match.params.userId],
+    friendId: friendshipId
   };
 };
 
@@ -2025,8 +2385,7 @@ var mDTP = function mDTP(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_friend_balance__WEBPACK_IMPORTED_MODULE_2__["default"]))); // cannot refresh on a user page
-// component doesn't render new balance - force update or use a dummy method
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_friend_balance__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
 
@@ -2166,7 +2525,9 @@ var FriendBillsIndex = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, friend.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleClick,
         className: "formSubmit"
-      }, "Add Expense")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.getFriendBills().map(function (bill) {
+      }, "Add Expense")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.getFriendBills().length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "noTransactions"
+      }, "You dont have any transactions with ".concat(friend.username, "!")) : this.getFriendBills().map(function (bill) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_friend_bills_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: bill.id,
           clearBill: _this2.props.clearBill,
@@ -2196,6 +2557,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
+/* harmony import */ var _comments_comments_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../comments/comments_container */ "./frontend/components/comments/comments_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2221,6 +2583,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var FriendBillItem = /*#__PURE__*/function (_React$Component) {
   _inherits(FriendBillItem, _React$Component);
 
@@ -2232,11 +2595,15 @@ var FriendBillItem = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, FriendBillItem);
 
     _this = _super.call(this, props);
+    _this.state = {
+      detailsOpen: false
+    };
     _this.payer = _this.payer.bind(_assertThisInitialized(_this));
     _this.payee = _this.payee.bind(_assertThisInitialized(_this));
     _this.getDate = _this.getDate.bind(_assertThisInitialized(_this));
     _this.color = _this.color.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.openDetails = _this.openDetails.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2309,7 +2676,7 @@ var FriendBillItem = /*#__PURE__*/function (_React$Component) {
         '11': "NOV",
         "12": "DEC"
       };
-      var date = bill.updated_at;
+      var date = bill.created_at;
       var month = date.slice(5, 7);
       var day = date.slice(8, 10);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2322,16 +2689,31 @@ var FriendBillItem = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleClick",
-    value: function handleClick() {
+    value: function handleClick(e) {
+      e.stopPropagation();
       var _this$props4 = this.props,
           bill = _this$props4.bill,
           clearBill = _this$props4.clearBill;
       clearBill(bill.id);
     }
   }, {
+    key: "openDetails",
+    value: function openDetails() {
+      if (!this.state.detailsOpen) {
+        this.setState({
+          detailsOpen: true
+        });
+      } else {
+        this.setState({
+          detailsOpen: false
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.openDetails,
         className: "billIndexItem"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "billLeft"
@@ -2350,14 +2732,14 @@ var FriendBillItem = /*#__PURE__*/function (_React$Component) {
       }, this.payee()), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: this.color()
       }, "$", (this.props.bill.amount / 100.00 / 2).toFixed(2))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "editBill"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "editBillBtn"
-      }, " Edit Bill")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "deleteBill"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaTimes"], {
         onClick: this.handleClick
-      })))));
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.detailsOpen ? 'billDetailsOpen' : 'billDetailsClosed'
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_comments_comments_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        bill: this.props.bill
+      })));
     }
   }]);
 
@@ -2419,12 +2801,20 @@ var FriendsIndex = /*#__PURE__*/function (_React$Component) {
   _createClass(FriendsIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.getAllRequests(this.props.currentUser.all_friends);
+      if (this.props.currentUser) {
+        this.props.getAllRequests(this.props.currentUser.all_friends);
+      }
     }
   }, {
     key: "render",
     value: function render() {
       var _this = this;
+
+      var friendships = this.props.friendships;
+
+      if (!friendships) {
+        return null;
+      }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "friendList"
@@ -2433,8 +2823,7 @@ var FriendsIndex = /*#__PURE__*/function (_React$Component) {
           key: friendship.id,
           currentUser: _this.props.currentUser,
           friendship: friendship,
-          sendRequest: _this.props.sendRequest,
-          clearRequest: _this.props.clearRequest
+          sendRequest: _this.props.sendRequest
         });
       })));
     }
@@ -2477,9 +2866,6 @@ var mDTP = function mDTP(dispatch) {
   return {
     getAllRequests: function getAllRequests(requestIds) {
       return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__["getAllRequests"])(requestIds));
-    },
-    clearRequest: function clearRequest(requestId) {
-      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__["clearRequest"])(requestId));
     },
     sendRequest: function sendRequest(request) {
       return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__["sendRequest"])(request));
@@ -2536,23 +2922,12 @@ var FriendsIndexItem = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(FriendsIndexItem);
 
   function FriendsIndexItem(props) {
-    var _this;
-
     _classCallCheck(this, FriendsIndexItem);
 
-    _this = _super.call(this, props);
-    _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
-    return _this;
+    return _super.call(this, props);
   }
 
   _createClass(FriendsIndexItem, [{
-    key: "handleClick",
-    value: function handleClick() {
-      if (confirm("Are you sure you want to delete this friend? Their bills will stay in the 'All Transactions' section")) {
-        this.props.clearRequest(this.props.friendship.id);
-      }
-    }
-  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -2562,18 +2937,12 @@ var FriendsIndexItem = /*#__PURE__*/function (_React$Component) {
         to: "/dashboard/".concat(this.props.friendship.recipient_id)
       }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], {
         className: "faLink"
-      }), " ", this.props.friendship.recipientName, " "), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "deleteFriend",
-        onClick: this.handleClick
-      }, "REMOVE")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+      }), " ", this.props.friendship.recipientName, " ")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         className: "nameLink",
         to: "/dashboard/".concat(this.props.friendship.requester_id)
       }, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaUser"], {
         className: "faLink"
-      }), " ", this.props.friendship.requesterName, " "), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "deleteFriend",
-        onClick: this.handleClick
-      }, "REMOVE")));
+      }), " ", this.props.friendship.requesterName, " ")));
     }
   }]);
 
@@ -3556,6 +3925,45 @@ var billsReducer = function billsReducer() {
 
 /***/ }),
 
+/***/ "./frontend/reducers/comments_reducer.js":
+/*!***********************************************!*\
+  !*** ./frontend/reducers/comments_reducer.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_comment_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/comment_actions */ "./frontend/actions/comment_actions.js");
+
+
+var commentsReducer = function commentsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+  var newState = Object.assign({}, state);
+
+  switch (action.type) {
+    case _actions_comment_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_COMMENTS"]:
+      return action.comments;
+
+    case _actions_comment_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_COMMENT"]:
+      newState[action.comment.id] = action.comment;
+      return newState;
+
+    case _actions_comment_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_COMMENT"]:
+      delete newState[action.comment.id];
+      return newState;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (commentsReducer);
+
+/***/ }),
+
 /***/ "./frontend/reducers/entities_reducer.js":
 /*!***********************************************!*\
   !*** ./frontend/reducers/entities_reducer.js ***!
@@ -3569,6 +3977,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
 /* harmony import */ var _bills_reduceer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./bills_reduceer */ "./frontend/reducers/bills_reduceer.js");
 /* harmony import */ var _request_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./request_reducer */ "./frontend/reducers/request_reducer.js");
+/* harmony import */ var _comments_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./comments_reducer */ "./frontend/reducers/comments_reducer.js");
+
 
 
 
@@ -3576,7 +3986,8 @@ __webpack_require__.r(__webpack_exports__);
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   bills: _bills_reduceer__WEBPACK_IMPORTED_MODULE_2__["default"],
-  friendships: _request_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
+  friendships: _request_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
+  comments: _comments_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -3986,6 +4397,49 @@ var editBill = function editBill(bill) {
 var deleteBill = function deleteBill(billId) {
   return $.ajax({
     url: "/api/bills/".concat(billId),
+    method: 'DELETE'
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/comment_api_util.js":
+/*!*******************************************!*\
+  !*** ./frontend/util/comment_api_util.js ***!
+  \*******************************************/
+/*! exports provided: fetchAllComments, fetchComment, postComment, deleteComment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAllComments", function() { return fetchAllComments; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchComment", function() { return fetchComment; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postComment", function() { return postComment; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteComment", function() { return deleteComment; });
+var fetchAllComments = function fetchAllComments() {
+  return $.ajax({
+    url: '/api/comments',
+    method: "GET"
+  });
+};
+var fetchComment = function fetchComment(commentId) {
+  return $.ajax({
+    url: "/api/comments/".concat(commentId),
+    method: 'GET'
+  });
+};
+var postComment = function postComment(comment) {
+  return $.ajax({
+    url: "/api/comments",
+    method: 'POST',
+    data: {
+      comment: comment
+    }
+  });
+};
+var deleteComment = function deleteComment(commentId) {
+  return $.ajax({
+    url: "/api/comments/".concat(commentId),
     method: 'DELETE'
   });
 };

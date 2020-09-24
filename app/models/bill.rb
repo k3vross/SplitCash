@@ -23,6 +23,10 @@ class Bill < ApplicationRecord
         foreign_key: :friend_id,
         class_name: :User
 
+    has_many :comments,
+        foreign_key: :bill_id,
+        class_name: :Comment
+
     def get_friend_id
         friend_id = bill.author + bill.receiver
         friend_id.delete(current_user.id)

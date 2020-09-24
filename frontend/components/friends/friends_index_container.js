@@ -12,7 +12,6 @@ const mSTP = state => {
 
 const mDTP = dispatch => ({
     getAllRequests: (requestIds) => dispatch(getAllRequests(requestIds)),
-    clearRequest: (requestId => dispatch(clearRequest(requestId))),
     sendRequest: (request) => dispatch(sendRequest(request))
 })
 

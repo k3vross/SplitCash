@@ -43,7 +43,10 @@ class FriendBillsIndex extends React.Component {
                     
                 </div>
                 <ul>
-                    {this.getFriendBills().map(bill => (
+                    {this.getFriendBills().length === 0 ? 
+                    <p className='noTransactions'>{`You dont have any transactions with ${friend.username}!`}</p>
+                    :
+                    this.getFriendBills().map(bill => (
                         <FriendBillItem key={bill.id}
                             clearBill={this.props.clearBill}
                             currentUser={this.props.currentUser}

@@ -108,7 +108,7 @@
     margin-left: 30px;
 }
 
-.editBill {
+.details {
     font-family: sans-serif;
     display: flex;
     margin-right: 30px;
@@ -118,24 +118,29 @@
     border-radius: 10px;
 }
 
-.editBillBtn {
-    color: white;
-}
-
-
-
-.editBillBtn:hover {
-    cursor: pointer;
-    
-}
-
-.billIndexItem:hover > span > .editBill > button {
+.billIndexItem:hover > span > .details > button {
     color: white;
     cursor: pointer;
     background-color: #ff652f;
 }
 
-.billIndexItem:hover > span > .editBill {
+.billIndexItem:hover > span > .details {
     border-color: #c75b34;
     background-color: #ff652f;
+}
+
+.billDetailsClosed {
+    display: none;
+}
+
+.billDetailsOpen {
+    font-family: sans-serif;
+    display: flex;
+    border-bottom: 1px solid lightgray;
+    min-height: 100px;
+}
+
+.detailsHeader {
+    justify-content: center;
+    padding-top: 10px;
 }

@@ -5,22 +5,15 @@ import {Link} from 'react-router-dom';
 class FriendsIndexItem extends React.Component {
     constructor(props) {
         super(props)
-        this.handleClick = this.handleClick.bind(this)
-    }
-
-    handleClick() {
-        if (confirm("Are you sure you want to delete this friend? Their bills will stay in the 'All Transactions' section")) {
-        this.props.clearRequest(this.props.friendship.id)
-        }
     }
 
     render() {
         return (
             <li className='friendItem'>
                 {this.props.currentUser.id === this.props.friendship.requester_id ? 
-                    <p> <Link className='nameLink' to={`/dashboard/${this.props.friendship.recipient_id}`}> <FaUser className='faLink' /> {this.props.friendship.recipientName} </Link> <button className='deleteFriend' onClick={this.handleClick}>REMOVE</button></p>
+                    <p> <Link className='nameLink' to={`/dashboard/${this.props.friendship.recipient_id}`}> <FaUser className='faLink' /> {this.props.friendship.recipientName} </Link></p>
                     :
-                    <p> <Link className='nameLink' to={`/dashboard/${this.props.friendship.requester_id}`}> <FaUser className='faLink' /> {this.props.friendship.requesterName} </Link> <button className='deleteFriend' onClick={this.handleClick}>REMOVE</button></p>
+                    <p> <Link className='nameLink' to={`/dashboard/${this.props.friendship.requester_id}`}> <FaUser className='faLink' /> {this.props.friendship.requesterName} </Link></p>
                 }
             </li>
         )
