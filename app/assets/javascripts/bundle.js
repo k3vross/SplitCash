@@ -1680,10 +1680,8 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
   _createClass(BillsIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (this.props.currentUser) {
-        this.props.getAllRequests(this.props.currentUser.all_friends);
-        this.props.getAllBills(this.props.currentUser.all_bills);
-      }
+      this.props.getAllRequests(this.props.currentUser.all_friends);
+      this.props.getAllBills(this.props.currentUser.all_bills);
     }
   }, {
     key: "handleClick",
