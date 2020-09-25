@@ -30,16 +30,20 @@ class BillsIndex extends React.Component {
                     <h2>Balances</h2>
                     <button onClick={this.handleClick} className='formSubmit'>Add Expense</button>
                 </div>
-                <ul>
-                    {this.props.friendships.map(friendship => (
-                        <BillIndexItem key={friendship.id}
+                {this.props.friendships.length === 0 ?
+                    <p className='noTransactions'>{`You dont have any friends yet! Search for them with their email in the sidebar.`}</p>
+                    :
+                    <ul>
+                        {this.props.friendships.map(friendship => (
+                            <BillIndexItem key={friendship.id}
                             clearBill={this.props.clearBill}
                             currentUser={this.props.currentUser}
                             friendship={friendship}
                             bills={this.props.bills}
-                        />
-                    ))}
-                </ul>
+                            />
+                            ))}
+                    </ul>
+                }
             </div>
         )
     }

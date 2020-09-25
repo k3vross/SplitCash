@@ -1,0 +1,59 @@
+.editContainer {
+    border: 1px solid lightgray;
+    margin: 5px 0 5px 5px;
+    border-radius: 5px;
+    max-height: 250px;
+}
+
+.editForm {
+    border: 2px solid lightgray;
+    padding: 5px;
+    margin: 5px 5px 5px 5px;
+    font-size: 11px;
+    font-family: sans-serif;
+    border-radius: 5px;
+    height: 200px;
+}
+
+.editField {
+    border: 1px solid gray;
+    margin: 5px;
+}
+
+.editField:focus {
+    outline: none;
+    border: 1px solid #1cc29f;
+    box-shadow: 0 0 10px #1cc29f;
+}
+
+.editLabel {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.editTitle {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    background-color: #1cc29f;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.editSelector {
+    margin: 3px;
+}
+
+.paidBy {
+    font-weight: 700;
+}
+
+.editForm > button {
+  margin-left: 80px;
+}
+
+.editNotice {
+    margin-top: 3px;
+}

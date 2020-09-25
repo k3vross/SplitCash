@@ -11,7 +11,7 @@ const mSTP = state => ({
 const mDTP = dispatch => ({
     getUser: email => dispatch(getUser(email)),
     sendRequest: request => dispatch(sendRequest(request)),
-    clearRequestErrors: () => dispatch(clearRequestErrors())
+    clearRequestErrors: () => dispatch(clearRequestErrors()),
 })
 
 export default connect(mSTP, mDTP)(FriendSearch)

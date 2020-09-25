@@ -29,7 +29,13 @@ class Api::BillsController < ApplicationController
     end
 
     def update
-
+        @bill = Bill.find_by(id: params[:id])
+        @bill.amount = ((params[:bill][:amount].to_f * 100).to_i)
+        if @bill.update(bill_params)
+            render :show
+        else
+            render json: @bill.errors.full_messages, status: 402
+        end
     end
 
     def destroy
@@ -41,4 +47,8 @@ class Api::BillsController < ApplicationController
         end
     end
 
+    private
+    def bill_params
+        params.require(:bill).permit(:description, :amount, :user_id, :friend_id, :author_paid)
+    end
 end

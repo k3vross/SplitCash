@@ -138,6 +138,8 @@
     display: flex;
     border-bottom: 1px solid lightgray;
     min-height: 100px;
+    justify-content: space-around;
+    background-color: rgb(250, 248, 248);
 }
 
 .detailsHeader {
