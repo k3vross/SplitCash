@@ -594,6 +594,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
 /* harmony import */ var _comments_comments_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../comments/comments_container */ "./frontend/components/comments/comments_container.js");
+/* harmony import */ var _bill_form_edit_bill_form_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../bill_form/edit_bill_form_container */ "./frontend/components/bill_form/edit_bill_form_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -615,6 +616,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -674,7 +676,7 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
       } else if (bill.user_id !== currentUser.id && bill.author_paid === 'y') {
         return "".concat(bill.authorName, " lent you");
       } else if (bill.user_id !== currentUser.id && bill.author_paid === 'n') {
-        return "You lent ".concat(bill.reveiverName);
+        return "You lent ".concat(bill.authorName);
       }
     }
   }, {
@@ -754,7 +756,7 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
         className: "billIndexItem"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "billLeft"
-      }, this.getDate(bill.created_at), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, bill.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, this.getDate(), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, bill.description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "billRight"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "billPayer"
@@ -775,6 +777,8 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.detailsOpen ? 'billDetailsOpen' : 'billDetailsClosed'
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_comments_comments_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        bill: this.props.bill
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bill_form_edit_bill_form_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         bill: this.props.bill
       })));
     }
@@ -1411,6 +1415,179 @@ var DashBillForm = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
+/***/ "./frontend/components/bill_form/edit_bill_form.jsx":
+/*!**********************************************************!*\
+  !*** ./frontend/components/bill_form/edit_bill_form.jsx ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var EditBillForm = /*#__PURE__*/function (_React$Component) {
+  _inherits(EditBillForm, _React$Component);
+
+  var _super = _createSuper(EditBillForm);
+
+  function EditBillForm(props) {
+    var _this;
+
+    _classCallCheck(this, EditBillForm);
+
+    _this = _super.call(this, props);
+    _this.state = _this.props.bill;
+    _this.state.newAmount = (_this.props.bill.amount / 100).toFixed(2);
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.update = _this.update.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(EditBillForm, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps !== this.props) {
+        this.setState({
+          amount: this.props.bill.amount
+        });
+      }
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit() {
+      this.update('amount');
+      this.state.amount = this.state.newAmount * 100;
+      this.props.updateBill(this.state);
+    }
+  }, {
+    key: "update",
+    value: function update(field) {
+      var _this2 = this;
+
+      switch (field) {
+        case "amount":
+          return function (e) {
+            return _this2.setState({
+              amount: e.currentTarget.value,
+              newAmount: e.currentTarget.value
+            });
+          };
+      }
+
+      return function (e) {
+        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
+      };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "editContainer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "editForm",
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "editTitle"
+      }, "Edit Bill"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "editLabel"
+      }, "Description ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "editField",
+        type: "text",
+        onChange: this.update("description"),
+        value: this.state.description
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "editLabel"
+      }, "Amount ", "$", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "editField",
+        type: "float",
+        onChange: this.update("amount"),
+        value: this.state.newAmount
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "paidBy"
+      }, "Paid by ".concat(this.props.bill.authorName, "?")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "editSelector",
+        value: this.state.author_paid,
+        onChange: this.update("author_paid")
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "y"
+      }, "Yes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "n"
+      }, "No")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "commentBtn"
+      }, "Update Bill"), this.props.bill.created_at !== this.props.bill.updated_at ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "editNotice"
+      }, "*This bill was edited on ".concat(this.props.bill.updated_at.slice(0, 10), ".")) : null));
+    }
+  }]);
+
+  return EditBillForm;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (EditBillForm);
+
+/***/ }),
+
+/***/ "./frontend/components/bill_form/edit_bill_form_container.js":
+/*!*******************************************************************!*\
+  !*** ./frontend/components/bill_form/edit_bill_form_container.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _edit_bill_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit_bill_form */ "./frontend/components/bill_form/edit_bill_form.jsx");
+/* harmony import */ var _actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/bill_actions */ "./frontend/actions/bill_actions.js");
+
+
+
+
+var mSTP = function mSTP(state, ownProps) {
+  return {
+    bill: ownProps.bill
+  };
+};
+
+var mDTP = function mDTP(dispatch) {
+  return {
+    updateBill: function updateBill(bill) {
+      return dispatch(Object(_actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__["updateBill"])(bill));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mSTP, mDTP)(_edit_bill_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
 /***/ "./frontend/components/bills/bills_container.js":
 /*!******************************************************!*\
   !*** ./frontend/components/bills/bills_container.js ***!
@@ -1531,7 +1708,9 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Balances"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleClick,
         className: "formSubmit"
-      }, "Add Expense")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.friendships.map(function (friendship) {
+      }, "Add Expense")), this.props.friendships.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "noTransactions"
+      }, "You dont have any friends yet! Search for them with their email in the sidebar.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.friendships.map(function (friendship) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bills_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: friendship.id,
           clearBill: _this.props.clearBill,
@@ -1812,6 +1991,7 @@ var CommentIndex = /*#__PURE__*/function (_React$Component) {
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
+    _this.scroll = _this.scroll.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1823,12 +2003,16 @@ var CommentIndex = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this2 = this;
+
       e.preventDefault();
       this.props.createComment({
         message: this.state.message,
         author_id: this.props.userId,
         bill_id: this.props.billId,
         author_name: this.props.currentUser.username
+      }).then(function () {
+        return _this2.scroll();
       });
       this.setState({
         message: ''
@@ -1842,9 +2026,22 @@ var CommentIndex = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "scroll",
+    value: function scroll() {
+      var coms = document.getElementsByClassName("commentIndex");
+      var i = 0;
+
+      if (coms) {
+        while (i < coms.length) {
+          coms[i].scrollTop = coms[i].scrollHeight;
+          i++;
+        }
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "commentContainer"
@@ -1854,14 +2051,15 @@ var CommentIndex = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_comment_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: comment.id,
           comment: comment,
-          authorName: _this2.props.authorName,
-          clearComment: _this2.props.clearComment,
-          userId: _this2.props.userId
+          authorName: _this3.props.authorName,
+          clearComment: _this3.props.clearComment,
+          userId: _this3.props.userId
         });
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "commentForm",
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        onClick: this.scroll,
         onChange: this.update,
         value: this.state.message,
         placeholder: "Add a comment",
@@ -1941,7 +2139,7 @@ var CommentIndexItem = /*#__PURE__*/function (_React$Component) {
         className: "commentContent"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "commentAuthor"
-      }, "".concat(this.props.comment.author_name, ":     ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, "".concat(this.props.comment.author_name, ":")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "commentMessage"
       }, this.props.comment.message))), this.props.comment.author_id === this.props.userId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "clearCommentBtn",
@@ -2558,6 +2756,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
 /* harmony import */ var _comments_comments_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../comments/comments_container */ "./frontend/components/comments/comments_container.js");
+/* harmony import */ var _bill_form_edit_bill_form_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../bill_form/edit_bill_form_container */ "./frontend/components/bill_form/edit_bill_form_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2579,6 +2778,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -2638,7 +2838,7 @@ var FriendBillItem = /*#__PURE__*/function (_React$Component) {
       } else if (bill.user_id !== currentUser.id && bill.author_paid === 'y') {
         return "".concat(bill.authorName, " lent you");
       } else if (bill.user_id !== currentUser.id && bill.author_paid === 'n') {
-        return "You lent ".concat(bill.reveiverName);
+        return "You lent ".concat(bill.authorName);
       }
     }
   }, {
@@ -2738,6 +2938,8 @@ var FriendBillItem = /*#__PURE__*/function (_React$Component) {
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.detailsOpen ? 'billDetailsOpen' : 'billDetailsClosed'
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_comments_comments_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        bill: this.props.bill
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bill_form_edit_bill_form_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         bill: this.props.bill
       })));
     }
@@ -3213,6 +3415,7 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit() {
+      this.props.getUser(this.state.email);
       this.props.sendRequest(this.state.email);
       this.setState({
         email: ''
@@ -3242,7 +3445,7 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
         onChange: this.update(),
         placeholder: "Search by email"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "requestBtn"
+        className: "commentBtn"
       }, "Add Friend")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "errors"
       }, this.renderErrors()));
@@ -3886,10 +4089,10 @@ var Splash = function Splash() {
 
 /***/ }),
 
-/***/ "./frontend/reducers/bills_reduceer.js":
-/*!*********************************************!*\
-  !*** ./frontend/reducers/bills_reduceer.js ***!
-  \*********************************************/
+/***/ "./frontend/reducers/bills_reducer.js":
+/*!********************************************!*\
+  !*** ./frontend/reducers/bills_reducer.js ***!
+  \********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3975,7 +4178,7 @@ var commentsReducer = function commentsReducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
-/* harmony import */ var _bills_reduceer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./bills_reduceer */ "./frontend/reducers/bills_reduceer.js");
+/* harmony import */ var _bills_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./bills_reducer */ "./frontend/reducers/bills_reducer.js");
 /* harmony import */ var _request_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./request_reducer */ "./frontend/reducers/request_reducer.js");
 /* harmony import */ var _comments_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./comments_reducer */ "./frontend/reducers/comments_reducer.js");
 
@@ -3985,7 +4188,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  bills: _bills_reduceer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  bills: _bills_reducer__WEBPACK_IMPORTED_MODULE_5__["default"],
   friendships: _request_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
   comments: _comments_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
 });

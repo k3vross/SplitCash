@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaTimes } from 'react-icons/fa';
 import CommentsContainer from '../comments/comments_container';
+import EditBillFormContainer from '../bill_form/edit_bill_form_container';
 
 
 class BillIndexItem extends React.Component {
@@ -39,7 +40,7 @@ class BillIndexItem extends React.Component {
         } else if (bill.user_id !== currentUser.id && bill.author_paid === 'y') {
             return `${bill.authorName} lent you`
         } else if (bill.user_id !== currentUser.id && bill.author_paid === 'n') {
-            return `You lent ${bill.reveiverName}`
+            return `You lent ${bill.authorName}`
         }
     }
 
@@ -102,7 +103,7 @@ class BillIndexItem extends React.Component {
             <li >
                 <div onClick={this.openDetails} className='billIndexItem'>
                     <span className='billLeft'>
-                        {this.getDate(bill.created_at)} <p>{bill.description}</p>
+                        {this.getDate()} <p>{bill.description}</p>
                     </span>
                     <span className='billRight'>
                         <div className='billPayer'>
@@ -118,6 +119,7 @@ class BillIndexItem extends React.Component {
                 </div>
                 <div className={this.state.detailsOpen ? 'billDetailsOpen' : 'billDetailsClosed'}>
                     <CommentsContainer bill={this.props.bill} />
+                    <EditBillFormContainer bill={this.props.bill}/>
                 </div>
             </li>
         )

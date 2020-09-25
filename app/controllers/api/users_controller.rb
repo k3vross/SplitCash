@@ -10,6 +10,15 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find_by(email: params[:email])
+    if @user
+      render :show
+    else
+      render json: ['user not found'], status: 404
+    end
+  end
+
   def index
     if params[:email]
       @user = User.find_by(email: params[:email])

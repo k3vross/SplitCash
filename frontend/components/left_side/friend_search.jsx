@@ -19,6 +19,7 @@ class FriendSearch extends React.Component {
     }
 
     handleSubmit() {
+        this.props.getUser(this.state.email);
         this.props.sendRequest(this.state.email)
         this.setState({email: ''})
     }
@@ -43,7 +44,7 @@ class FriendSearch extends React.Component {
                 <p className="searchHeader">Find a friend</p>
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" value={this.state.email} onChange={this.update()} placeholder='Search by email'/>
-                    <button className="requestBtn">Add Friend</button>
+                    <button className="commentBtn">Add Friend</button>
                 </form>
                 <div className='errors'>
                     {this.renderErrors()}
