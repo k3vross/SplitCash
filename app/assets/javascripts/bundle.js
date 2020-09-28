@@ -3426,7 +3426,8 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleSubmit",
-    value: function handleSubmit() {
+    value: function handleSubmit(e) {
+      e.preventDefault();
       this.props.getUser(this.state.email);
       this.props.sendRequest(this.state.email);
       this.setState({

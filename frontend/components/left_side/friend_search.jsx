@@ -18,7 +18,8 @@ class FriendSearch extends React.Component {
         return e => this.setState({ email: e.currentTarget.value });
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         this.props.getUser(this.state.email);
         this.props.sendRequest(this.state.email)
         this.setState({email: ''})
