@@ -39,11 +39,10 @@ export const receiveAllUsers = (users) => {
   }
 }
 
-
-
 export const login = (user) => (dispatch) => {
   return postSession(user)
     .then((user) => { dispatch(receiveCurrentUser(user))
+      
   }).fail((errors) => {
     dispatch(receiveSessionErrors(errors.responseJSON))
   })
@@ -59,7 +58,7 @@ export const signup = (user) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   return deleteSession().then((user) => {
-    dispatch(logoutCurrentUser())
+    dispatch(logoutCurrentUser(user))
   }).fail((errors) => {
     dispatch(receiveSessionErrors(errors))
   })

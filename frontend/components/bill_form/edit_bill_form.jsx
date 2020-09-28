@@ -15,7 +15,8 @@ class EditBillForm extends React.Component {
         }
     }
 
-    handleSubmit() {
+    handleSubmit(e) {
+        e.preventDefault();
         this.update('amount');
         this.state.amount = (this.state.newAmount * 100)
         this.props.updateBill(this.state)

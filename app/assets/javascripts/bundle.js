@@ -408,7 +408,7 @@ var signup = function signup(user) {
 var logout = function logout() {
   return function (dispatch) {
     return Object(_util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteSession"])().then(function (user) {
-      dispatch(logoutCurrentUser());
+      dispatch(logoutCurrentUser(user));
     }).fail(function (errors) {
       dispatch(receiveSessionErrors(errors));
     });
@@ -1481,7 +1481,8 @@ var EditBillForm = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "handleSubmit",
-    value: function handleSubmit() {
+    value: function handleSubmit(e) {
+      e.preventDefault();
       this.update('amount');
       this.state.amount = this.state.newAmount * 100;
       this.props.updateBill(this.state);
@@ -1680,8 +1681,10 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
   _createClass(BillsIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.getAllRequests(this.props.currentUser.all_friends);
-      this.props.getAllBills(this.props.currentUser.all_bills);
+      if (this.props.currentUser) {
+        this.props.getAllRequests(this.props.currentUser.all_friends);
+        this.props.getAllBills(this.props.currentUser.all_bills);
+      }
     }
   }, {
     key: "handleClick",
@@ -4564,7 +4567,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteBill", function() { return deleteBill; });
 var postBill = function postBill(bill) {
   return $.ajax({
-    url: "/api//bills",
+    url: "/api/bills",
     method: 'POST',
     data: {
       bill: bill

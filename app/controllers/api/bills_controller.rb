@@ -30,7 +30,6 @@ class Api::BillsController < ApplicationController
 
     def update
         @bill = Bill.find_by(id: params[:id])
-        @bill.amount = ((params[:bill][:amount].to_f * 100).to_i)
         if @bill.update(bill_params)
             render :show
         else

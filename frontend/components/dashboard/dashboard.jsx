@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import LeftSidebar from '../left_side/left_sidebar';
 import AllBillsContainer from '../all_bills/all_bills_container';
 import BalanceContainer from '../right_side/balance_container';
