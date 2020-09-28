@@ -9,7 +9,7 @@ class BillsIndex extends React.Component {
     componentDidMount() {
         if (this.props.currentUser) {
             this.props.getAllRequests(this.props.currentUser.all_friends)
-            this.props.getAllBills(this.props.currentUser.all_bills)
+            .then(() => this.props.getAllBills(this.props.currentUser.all_bills))
         }
     }
 

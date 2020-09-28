@@ -1681,9 +1681,12 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
   _createClass(BillsIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var _this = this;
+
       if (this.props.currentUser) {
-        this.props.getAllRequests(this.props.currentUser.all_friends);
-        this.props.getAllBills(this.props.currentUser.all_bills);
+        this.props.getAllRequests(this.props.currentUser.all_friends).then(function () {
+          return _this.props.getAllBills(_this.props.currentUser.all_bills);
+        });
       }
     }
   }, {
@@ -1696,7 +1699,7 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
       var currentUser = this.props.currentUser;
 
@@ -1714,10 +1717,10 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
       }, "You dont have any friends yet! Search for them with their email in the sidebar.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.friendships.map(function (friendship) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bills_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: friendship.id,
-          clearBill: _this.props.clearBill,
-          currentUser: _this.props.currentUser,
+          clearBill: _this2.props.clearBill,
+          currentUser: _this2.props.currentUser,
           friendship: friendship,
-          bills: _this.props.bills
+          bills: _this2.props.bills
         });
       })));
     }
