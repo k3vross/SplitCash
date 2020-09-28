@@ -25,25 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   const root = document.getElementById("root");
 
-  //test
-    window.login = login;
-    window.signup = signup;
-    window.logout = logout;
-    window.getState = store.getState;
-    window.dispatch = store.dispatch;
-    window.postUser = postUser;
-    window.postSession = postSession;
-    window.deleteSession = deleteSession;
-    window.postRequest = postRequest;
-    window.deleteRequest = deleteRequest;
-    window.sendRequest = sendRequest;
-    window.clearRequest = clearRequest;
-    window.fetchRequests = fetchRequests;
-    window.getAllRequests = getAllRequests;
-    window.getAllBills = getAllBills;
-    window.clearBill = clearBill;
-  //test
-
   ReactDOM.render(<Root store={store}/>, root);
 });
 
