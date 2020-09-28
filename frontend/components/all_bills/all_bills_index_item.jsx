@@ -84,9 +84,12 @@ class BillIndexItem extends React.Component {
     }
 
     handleClick(e) {
+        e.preventDefault()
         e.stopPropagation();
         const { bill, clearBill } = this.props
-        clearBill(bill.id)
+        if (confirm("Are you sure you want to delete this bill?")) {
+            clearBill(bill.id)
+        }
     }
 
     openDetails() {

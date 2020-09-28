@@ -728,11 +728,15 @@ var BillIndexItem = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleClick",
     value: function handleClick(e) {
+      e.preventDefault();
       e.stopPropagation();
       var _this$props4 = this.props,
           bill = _this$props4.bill,
           clearBill = _this$props4.clearBill;
-      clearBill(bill.id);
+
+      if (confirm("Are you sure you want to delete this bill?")) {
+        clearBill(bill.id);
+      }
     }
   }, {
     key: "openDetails",
@@ -2894,11 +2898,15 @@ var FriendBillItem = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleClick",
     value: function handleClick(e) {
+      e.preventDefault();
       e.stopPropagation();
       var _this$props4 = this.props,
           bill = _this$props4.bill,
           clearBill = _this$props4.clearBill;
-      clearBill(bill.id);
+
+      if (confirm("Are you sure you want to delete this bill?")) {
+        clearBill(bill.id);
+      }
     }
   }, {
     key: "openDetails",

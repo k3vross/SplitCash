@@ -60,7 +60,7 @@
     Comment.create(author_id: demo.id, bill_id: bill7.id, author_name: demo.username, message: "Can you pay me for this pizza by tomrrow?")
     Comment.create(author_id: mike.id, bill_id: bill8.id, author_name: mike.username, message: "Can't believe we won trivia. You still need to pay me back for the entry fee, though.")
     Comment.create(author_id: demo.id, bill_id: bill9.id, author_name: demo.username, message: "Thanks for paying for bowling! I'll pay you tomorrow.")
-    Comment.create(author_id: demo.id, bill_id: bill10.id, author_name: demo.username, message: "Thanks for comming to sushi. I added the total on this app. Pay me whenever")
+    Comment.create(author_id: demo.id, bill_id: bill10.id, author_name: demo.username, message: "Thanks for coming to sushi. I added the total on this app. Pay me whenever")
     Comment.create(author_id: joe.id, bill_id: bill11.id, author_name: joe.username, message: "Those beers were great! I liked the amber ale the best")
     Comment.create(author_id: demo.id, bill_id: bill12.id, author_name: demo.username, message: "Thanks for paying for the code conference. I learned a ton!")
     Comment.create(author_id: vanessa.id, bill_id: bill13.id, author_name: vanessa.username, message: "Glad we found parking. I thought we were gonna drive around forever!")
