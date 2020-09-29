@@ -1,6 +1,6 @@
-import React from 'react';
 import FriendsIndex from './friends_index';
-import { getAllRequests, clearRequest, sendRequest } from '../../actions/friend_actions';
+import { getAllRequests, sendRequest } from '../../actions/friend_actions';
+import { getAllBills } from '../../actions/bill_actions';
 import { connect } from 'react-redux';
 
 
@@ -12,6 +12,7 @@ const mSTP = state => {
 
 const mDTP = dispatch => ({
     getAllRequests: (requestIds) => dispatch(getAllRequests(requestIds)),
+    getAllBills: (billIds) => dispatch(getAllBills(billIds)),
     sendRequest: (request) => dispatch(sendRequest(request))
 })
 

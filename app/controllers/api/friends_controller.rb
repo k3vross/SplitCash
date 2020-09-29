@@ -17,9 +17,6 @@ class Api::FriendsController < ApplicationController
     end
 
     def index
-        if !current_user
-            return null
-        end
         friendIds = []
         @friendships = Friend.find(params[:requestIds])
         @friendships.each do |friendship|
@@ -27,7 +24,7 @@ class Api::FriendsController < ApplicationController
             friendIds.concat([friendship.recipient_id])
         end
         friendIds = friendIds.uniq
-        friendIds.delete(current_user.id)
+        # friendIds.delete(current_user.id)
         @friends = User.find(friendIds)
         render :index
     end

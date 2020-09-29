@@ -12,7 +12,10 @@ class FriendSearch extends React.Component {
         this.renderErrors = this.renderErrors.bind(this);
     }
 
-    
+    // componentDidMount() {
+    //     this.props.getAllRequests(this.props.currentUser.all_friends)
+    //         .then(() => this.props.getAllBills(this.props.currentUser.all_bills));
+    // }
 
     update() {
         return e => this.setState({ email: e.currentTarget.value });
@@ -26,6 +29,8 @@ class FriendSearch extends React.Component {
     }
 
     renderErrors() {
+        let { currentUser } = this.props
+        if (!currentUser) return null
         return (
             <ul>
                 {this.props.errors.map((error, i) => {

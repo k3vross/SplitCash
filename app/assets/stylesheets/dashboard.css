@@ -65,6 +65,10 @@
     text-align: left;
 }
 
+.nameLink:hover {
+    color: #1cc29f;
+}
+
 .friendList {
     margin-bottom: 20px;
 }
@@ -113,21 +117,6 @@
 .requestBtn:hover {
     background-color: #d8d8d8;
     cursor: pointer;
-}
-
-.deleteFriend {
-    border: 1px solid #777777;
-    border-radius: 5px;
-    background-color: #EEEEEE;
-    min-width: 10px;
-    font-size: 7px;
-    padding: 1px;
-}
-
-.deleteFriend:hover {
-    cursor: pointer;
-    background-color: #c7c7c7;
-    
 }
 
 .nameLink {
@@ -215,6 +204,11 @@
     border-radius: 5px;
     padding: 12px;
     border: 1px solid #c83400;
+}
+
+.platesBtn:hover {
+    cursor: pointer;
+    background-color: #c83400;
 }
 
 .noTransactions {
