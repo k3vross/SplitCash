@@ -89,6 +89,7 @@
     padding: 0 0 5px 0;
     text-shadow: rgba(0, 0, 0, 0.25) 0px -1px 0px;
     font-weight: 700;
+    width: 156px;
 }
 
 .searchBox > form {
@@ -96,7 +97,7 @@
     border-right: 1px solid #777777;
     border-bottom: 1px solid #777777;
     padding: 2px;
-    max-width: 156px;
+    max-width: 150px;
 }
 
 .searchBox > form > input {

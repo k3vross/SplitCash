@@ -3457,8 +3457,10 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "searchHeader"
       }, "Find a friend"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "friendSearchForm",
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "emailSearch",
         type: "text",
         value: this.state.email,
         onChange: this.update(),

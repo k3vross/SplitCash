@@ -48,8 +48,8 @@ class FriendSearch extends React.Component {
         return (
             <div className='searchBox'>
                 <p className="searchHeader">Find a friend</p>
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.email} onChange={this.update()} placeholder='Search by email'/>
+                <form className="friendSearchForm" onSubmit={this.handleSubmit}>
+                    <input className="emailSearch" type="text" value={this.state.email} onChange={this.update()} placeholder='Search by email'/>
                     <button className="commentBtn">Add Friend</button>
                 </form>
                 <div className='errors'>
