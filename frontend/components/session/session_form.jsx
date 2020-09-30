@@ -45,7 +45,8 @@ class SessionForm extends React.Component {
         return e => this.setState({[field]: e.currentTarget.value});
     }
 
-    loginDemo() {
+    loginDemo(e) {
+        e.preventDefault()
         this.setState({username: 'demoUser', password: '123456'})
         const demo = { username: 'demoUser', password: '123456' }
         this.props.processForm(demo).then(() => this.props.history.push('/dashboard'));
@@ -81,11 +82,11 @@ class SessionForm extends React.Component {
                         <br/>
                         <br/>
                         <button className='formSubmit'>{this.props.formType === 'Signup' ? <p>Sign me up!</p> : <p>Log me in!</p>}</button>
-                        {this.props.formType === 'Login' ? <button className="demoBtn" onClick={this.loginDemo}>Demo login</button> : null}
                         <div className='errors'>
                             {this.renderErrors()}
                         </div>
                     </form>
+                    {this.props.formType === 'Login' ? <button className="demoBtn" onClick={this.loginDemo}>Demo login</button> : null}
                 </div>
                 <br/>
             </div>

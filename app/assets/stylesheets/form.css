@@ -45,7 +45,6 @@
     color: #c83400;
     font-family: sans-serif;
     text-align: center;
-    padding: 15px;
     font-size: 20px;
     max-width: 300px;
     margin-top: 30px;
@@ -104,7 +103,11 @@ strong {
     color: white;
     padding: 12px;
     border: 1px solid #0f6b57;
-    float: right;
+    height: 50px;
+    position: absolute;
+    margin-left: 214px;
+    margin-top: 214px;
+    min-width: 148px;
 }
 
 .demoBtn:hover {

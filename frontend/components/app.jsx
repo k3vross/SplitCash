@@ -12,10 +12,10 @@ import CreateBillFormContainer from './bill_form/create_bill_form_container';
 
 const App = () => (
   <div>
+    <Route path="/" component={HeaderContainer} />
     <Switch>
       <AuthRoute path="/signup" component={SignupFormContainer} />
       <AuthRoute exact path="/" component={Splash} />
-      <Route path="/" component={HeaderContainer} />
     </Switch>
     <AuthRoute path="/login" component={LoginFormContainer} />
     <Route path="/dashboard" component={DashboardContainer} />

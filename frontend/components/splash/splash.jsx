@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom';
 const Splash = () => {
     return (
         <div>
-        <HeaderContainer />
             <h1 className='welcomeTitle'>Welcome to SplitCash</h1>
             <h3 className='welcomeDescription'>An easy way to split expenses with anyone, anywhere, for anything!</h3>
             <div className='splashContent'>
