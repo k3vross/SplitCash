@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin-top: 12px;
+    margin: 12px 0 0 0;
     align-items: center;
 }
 
@@ -48,7 +48,7 @@
     font-family: sans-serif;
     font-size: 12px;
     margin-top: 20px;
-    width: 150px;
+    width: 165px;
     text-align: left;
     margin-bottom: 8px;
     padding: 3px;
@@ -79,17 +79,20 @@
     background-color: #1cc29f;
     color: white;
     font-size: 14px;
-    width: 150px;
+    width: 159px;
     padding: 5px;
     border: 1px solid #15977b;
 
+}
+
+.friendSearchForm {
+    width: 165px;
 }
 
 .searchBox {
     padding: 0 0 5px 0;
     text-shadow: rgba(0, 0, 0, 0.25) 0px -1px 0px;
     font-weight: 700;
-    width: 156px;
 }
 
 .searchBox > form {
@@ -97,12 +100,15 @@
     border-right: 1px solid #777777;
     border-bottom: 1px solid #777777;
     padding: 2px;
-    max-width: 150px;
 }
 
 .searchBox > form > input {
     margin-top: 0;
     border: 1px solid #777777;
+}
+
+.emailSearch {
+    max-width: 120px;
 }
 
 .requestBtn {
@@ -140,6 +146,7 @@
     box-shadow: rgba(0, 0, 0, 0.25) 0 0 3px 0;
     min-width: 740px;
     min-height: 1000px;
+    margin-top: 1px;
 }
 
 .transactionHeader {
