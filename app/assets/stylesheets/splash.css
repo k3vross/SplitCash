@@ -1,0 +1,163 @@
+.titleSplash {
+     font-family: sans-serif;
+     font-size: 20px;
+     color: #3b4443;
+     padding: 10px;
+     margin-top: 0;
+     letter-spacing: .15ch;
+     font-weight: bold;
+ }
+
+ .titleLoggedIn {
+     font-family: sans-serif;
+     font-size: 20px;
+     color: white;
+     padding: 10px;
+     margin-top: 0;
+     letter-spacing: .15ch;
+     font-weight: bold;
+     text-shadow: rgba(0, 0, 0, 0.25) 0px -1px 0px;
+ }
+
+ .greetingBtn {
+     display: flex;
+     justify-content: space-between;
+     margin-right: 300px
+ }
+
+ .signup {
+    background-color: #1cc29f;
+    border: 1px solid #0f6b57;
+    color: white;
+    position: relative;
+    font-family: sans-serif;
+    font-size: 15px;
+    font-weight: 700px;
+    max-height: 75px;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 3px 5px 7px 5px;
+    min-width: 51px;
+}
+
+.login {
+    font-family: sans-serif;
+    text-decoration: none;
+    color: #1cc29f;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 3px 5px 5px 5px;
+    align-self: center;
+    min-width: 45px;
+}
+
+.signup:hover {
+  background-color: #15977b;
+  cursor: pointer;
+}
+
+.login:hover {
+    cursor: pointer;
+    color: #15977b;
+}
+
+.welcomeTitle {
+    margin-top: 60px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 50px;
+    letter-spacing: 5px;
+    color: #373b3f
+}
+
+.welcomeDescription {
+    margin-top: 20px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #373b3f
+}
+
+.splashContent {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.splashLogo {
+    max-width: 400px;
+    max-height: 300px;
+    margin-top: 100px;
+    margin-right: 100px;
+}
+
+.featuresList {
+    color: #373b3f;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-left: 100px;
+}
+
+.splashContent > div {
+    margin-top: 140px;
+}
+
+.splashContent > div > ul {
+    margin-bottom: 50px;
+}
+
+.splashContent > div > ul > li {
+    margin-bottom: 50px;
+    min-width: 400px;
+}
+
+.splashSignup {
+    background-color: #1cc29f;
+    border: 1px solid #0f6b57;
+    color: white;
+    font-family: sans-serif;
+    font-size: 34px;
+    font-weight: 700px;
+    min-height: 100px;
+    text-decoration: none;
+    padding: 10px 55px 10px 55px;
+    border-radius: 5px;
+    margin-left: 100px;
+    min-width: 200px;
+}
+
+.splashSignup:hover {
+    cursor: pointer;
+    background-color: #0f6b57;
+}
+
+.reviewsContainer {
+    display: flex;
+}
+
+.reviews {
+    margin-top: 100px;
+    justify-content: center;
+    width: 75%;
+    max-height: 495px;
+}
+
+.splashPersonalLinks {
+    display: flex;
+    flex-direction: column;
+}
+
+.splashPersonalLink {
+    font-size: 75px;
+    color: #1cc29f;
+    margin: 25px 0 25px 0;
+}
+
+.splashPersonalLink:hover {
+    color: #15977b;
+}
+

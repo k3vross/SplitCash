@@ -85,6 +85,12 @@
 
 }
 
+.noFriend {
+    font-size: 12px;
+    font-weight: 700;
+    color: #ff652f;
+}
+
 .friendSearchForm {
     width: 165px;
 }
@@ -225,5 +231,18 @@
     color: lightgray;
     font-family: sans-serif;
     margin-top: 50px;
-    
+}
+
+.personalLink {
+    color: #1cc29f;
+    font-size: 40px;
+    margin: 0 10px 0 10px;
+}
+
+.personalLink:hover {
+    color: #15977b;
+}
+
+.personalLinks {
+    min-width: 200px;
 }

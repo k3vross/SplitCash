@@ -28,10 +28,13 @@ class BillsIndex extends React.Component {
             <div>
                 <div className='transactionHeader'>
                     <h2>Balances</h2>
-                    <button onClick={this.handleClick} className='formSubmit'>Add Expense</button>
+                    {this.props.friendships.length === 0 ?
+                    <p className='noFriend'>Add a friend to record a transaction</p>
+                    :
+                    <button onClick={this.handleClick} className='formSubmit'>Add Expense</button>}
                 </div>
                 {this.props.friendships.length === 0 ?
-                    <p className='noTransactions'>{`You dont have any friends yet! Search for them with their email in the sidebar.`}</p>
+                    <p className='noTransactions'>{`You don't have any friends yet! Search for them with their email in the sidebar.`}</p>
                     :
                     <ul>
                         {this.props.friendships.map(friendship => (
