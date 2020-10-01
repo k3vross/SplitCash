@@ -13,7 +13,7 @@ class Api::BillsController < ApplicationController
         if @bill.save
             render :show
         else
-            render json: @bill.errors.full_messages, status: 401
+            render json: @bill.errors.full_messages, status: 402
         end
     end
 

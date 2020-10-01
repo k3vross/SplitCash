@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaQuestionCircle } from "react-icons/fa";
 
 
 class FriendSearch extends React.Component {
@@ -10,15 +11,27 @@ class FriendSearch extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.update = this.update.bind(this);
         this.renderErrors = this.renderErrors.bind(this);
+        this.handleMouse = this.handleMouse.bind(this);
+        this.closeMouse = this.closeMouse.bind(this);
     }
-
-    // componentDidMount() {
-    //     this.props.getAllRequests(this.props.currentUser.all_friends)
-    //         .then(() => this.props.getAllBills(this.props.currentUser.all_bills));
-    // }
 
     update() {
         return e => this.setState({ email: e.currentTarget.value });
+    }
+
+    handleMouse(e) {
+        e.preventDefault();
+        let info = document.getElementsByClassName('friendInfo')[0];
+        let classes = info.classList;
+        if (!classes.contains("infoOpen")) {
+          info.classList.add("infoOpen");
+        }
+    }
+
+    closeMouse(e) {
+        e.preventDefault();
+        let info = document.getElementsByClassName("friendInfo")[0];
+        info.classList.remove("infoOpen");
     }
 
     handleSubmit(e) {
@@ -46,17 +59,33 @@ class FriendSearch extends React.Component {
 
     render() {
         return (
-            <div className='searchBox'>
-                <p className="searchHeader">Find a friend</p>
-                <form className="friendSearchForm" onSubmit={this.handleSubmit}>
-                    <input className="emailSearch" type="text" value={this.state.email} onChange={this.update()} placeholder='Search by email'/>
-                    <button className="commentBtn">Add Friend</button>
-                </form>
-                <div className='errors'>
-                    {this.renderErrors()}
-                </div> 
+          <div className="searchBox">
+            <p className="searchHeader">
+              Find a friend{" "}
+              <FaQuestionCircle
+                onMouseEnter={this.handleMouse}
+                onMouseLeave={this.closeMouse}
+                className="questionCircle"
+              />
+            </p>
+            <div className="friendInfo">
+              <p className='friendInfoMsg'>
+                Search for registered users by their email. If you have made a new user and would like to test functionality, search for mike@mike.com or jen@jen.com.
+              </p>
             </div>
-        )
+            <form className="friendSearchForm" onSubmit={this.handleSubmit}>
+              <input
+                className="emailSearch"
+                type="text"
+                value={this.state.email}
+                onChange={this.update()}
+                placeholder="Search by email"
+              />
+              <button className="commentBtn">Add Friend</button>
+            </form>
+            <div className="errors">{this.renderErrors()}</div>
+          </div>
+        );
     }
 }
 

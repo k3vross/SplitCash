@@ -90,7 +90,7 @@
 /*!******************************************!*\
   !*** ./frontend/actions/bill_actions.js ***!
   \******************************************/
-/*! exports provided: RECEIVE_ALL_BILLS, RECEIVE_BILL, REMOVE_BILL, createBill, getBill, getAllBills, updateBill, clearBill */
+/*! exports provided: RECEIVE_ALL_BILLS, RECEIVE_BILL, REMOVE_BILL, RECEIVE_BILL_ERRORS, CLEAR_BILL_ERRORS, clearBillErrors, createBill, getBill, getAllBills, updateBill, clearBill */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98,16 +98,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ALL_BILLS", function() { return RECEIVE_ALL_BILLS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_BILL", function() { return RECEIVE_BILL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_BILL", function() { return REMOVE_BILL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_BILL_ERRORS", function() { return RECEIVE_BILL_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_BILL_ERRORS", function() { return CLEAR_BILL_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearBillErrors", function() { return clearBillErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createBill", function() { return createBill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBill", function() { return getBill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAllBills", function() { return getAllBills; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateBill", function() { return updateBill; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearBill", function() { return clearBill; });
 /* harmony import */ var _util_bill_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/bill_api_util */ "./frontend/util/bill_api_util.jsx");
+/* harmony import */ var _friend_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./friend_actions */ "./frontend/actions/friend_actions.js");
+
 
 var RECEIVE_ALL_BILLS = 'RECEIVE_ALL_BILLS';
 var RECEIVE_BILL = 'RECEIVE_BILL';
 var REMOVE_BILL = 'REMOVE_BILL';
+var RECEIVE_BILL_ERRORS = 'RECEIVE_BILL_ERRORS';
+var CLEAR_BILL_ERRORS = "CLEAR_BILL_ERRORS";
 
 var receiveAllBills = function receiveAllBills(bills) {
   return {
@@ -130,11 +137,27 @@ var removeBill = function removeBill(billId) {
   };
 };
 
+var receiveBillErrors = function receiveBillErrors(errors) {
+  return {
+    type: RECEIVE_BILL_ERRORS,
+    errors: errors
+  };
+};
+
+var clearBillErrors = function clearBillErrors() {
+  return {
+    type: CLEAR_BILL_ERRORS
+  };
+};
 var createBill = function createBill(bill) {
   return function (dispatch) {
     return Object(_util_bill_api_util__WEBPACK_IMPORTED_MODULE_0__["postBill"])(bill).then(function (bill) {
-      return dispatch(receiveBill(bill));
-    });
+      dispatch(receiveBill(bill));
+    }).fail(function (errors) {
+      dispatch(receiveBillErrors(errors.responseJSON));
+    }, setTimeout(function () {
+      dispatch(Object(_friend_actions__WEBPACK_IMPORTED_MODULE_1__["clearRequestErrors"])());
+    }, 2000));
   };
 };
 var getBill = function getBill(billId) {
@@ -461,6 +484,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _all_bills_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./all_bills_index */ "./frontend/components/all_bills/all_bills_index.jsx");
 /* harmony import */ var _actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/bill_actions */ "./frontend/actions/bill_actions.js");
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+
 
 
 
@@ -468,7 +493,8 @@ __webpack_require__.r(__webpack_exports__);
 var mSTP = function mSTP(state) {
   return {
     currentUser: state.entities.users[state.session.id],
-    bills: Object.values(state.entities.bills)
+    bills: Object.values(state.entities.bills),
+    friendships: Object.values(state.entities.friendships)
   };
 };
 
@@ -479,6 +505,9 @@ var mDTP = function mDTP(dispatch) {
     },
     clearBill: function clearBill(billId) {
       return dispatch(Object(_actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__["clearBill"])(billId));
+    },
+    getAllRequests: function getAllRequests(requestIds) {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__["getAllRequests"])(requestIds));
     }
   };
 };
@@ -542,33 +571,47 @@ var AllBillsIndex = /*#__PURE__*/function (_React$Component) {
   _createClass(AllBillsIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (this.props.currentUser) {
-        this.props.getAllBills(this.props.currentUser.all_bills);
+      var _this2 = this;
+
+      if (this.props.currentUser && this.props.currentUser.all_friends) {
+        this.props.getAllRequests(this.props.currentUser.all_friends).then(function () {
+          return _this2.props.getAllBills(_this2.props.currentUser.all_bills);
+        });
       }
     }
   }, {
     key: "handleClick",
     value: function handleClick(e) {
       e.preventDefault();
-      var open = document.getElementsByClassName('modal')[0];
-      open.classList.add('is-open');
+      var open = document.getElementsByClassName("modal")[0];
+      open.classList.add("is-open");
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
+
+      var currentUser = this.props.currentUser;
+
+      if (!currentUser) {
+        return null;
+      }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "transactionHeader"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "All Expenses"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "All Expenses"), this.props.friendships.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "noFriend"
+      }, "Add a friend to record a transaction") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleClick,
         className: "formSubmit"
-      }, "Add Expense")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.bills.map(function (bill) {
+      }, "Add Expense")), this.props.bills.length === 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "noTransactions"
+      }, "You don't have any transactions yet! Add them with the above button.") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.bills.map(function (bill) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_all_bills_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: bill.id,
-          currentUser: _this2.props.currentUser,
+          currentUser: _this3.props.currentUser,
           bill: bill,
-          clearBill: _this2.props.clearBill
+          clearBill: _this3.props.clearBill
         });
       })));
     }
@@ -813,8 +856,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _header_header_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./header/header_container */ "./frontend/components/header/header_container.js");
 /* harmony import */ var _dashboard_dashboard_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./dashboard/dashboard_container */ "./frontend/components/dashboard/dashboard_container.js");
 /* harmony import */ var _splash_splash__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./splash/splash */ "./frontend/components/splash/splash.jsx");
-/* harmony import */ var _bill_form_create_bill_form_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./bill_form/create_bill_form_container */ "./frontend/components/bill_form/create_bill_form_container.js");
-
 
 
 
@@ -1523,14 +1564,14 @@ var EditBillForm = /*#__PURE__*/function (_React$Component) {
       }, "Edit Bill"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "editLabel"
       }, "Description ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "editField",
+        className: "editField1",
         type: "text",
         onChange: this.update("description"),
         value: this.state.description
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "editLabel"
       }, "Amount ", "$", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "editField",
+        className: "editField2",
         type: "float",
         onChange: this.update("amount"),
         value: this.state.newAmount
@@ -1687,7 +1728,7 @@ var BillsIndex = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this = this;
 
-      if (this.props.currentUser) {
+      if (this.props.currentUser && this.props.currentUser.all_friends) {
         this.props.getAllRequests(this.props.currentUser.all_friends).then(function () {
           return _this.props.getAllBills(_this.props.currentUser.all_bills);
         });
@@ -2609,6 +2650,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _friend_bills_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./friend_bills_index */ "./frontend/components/friend_bills/friend_bills_index.jsx");
 /* harmony import */ var _actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/bill_actions */ "./frontend/actions/bill_actions.js");
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+
 
 
 
@@ -2628,6 +2671,9 @@ var mDTP = function mDTP(dispatch) {
     },
     clearBill: function clearBill(billId) {
       return dispatch(Object(_actions_bill_actions__WEBPACK_IMPORTED_MODULE_2__["clearBill"])(billId));
+    },
+    getAllRequests: function getAllRequests(requestIds) {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_3__["getAllRequests"])(requestIds));
     }
   };
 };
@@ -2709,22 +2755,30 @@ var FriendBillsIndex = /*#__PURE__*/function (_React$Component) {
     key: "handleClick",
     value: function handleClick(e) {
       e.preventDefault();
-      var open = document.getElementsByClassName('modal')[0];
-      open.classList.add('is-open');
+      var open = document.getElementsByClassName("modal")[0];
+      open.classList.add("is-open");
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.getAllBills();
+      var _this2 = this;
+
+      if (this.props.currentUser && this.props.currentUser.all_friends) {
+        this.props.getAllRequests(this.props.currentUser.all_friends).then(function () {
+          return _this2.props.getAllBills(_this2.props.currentUser.all_bills);
+        });
+      }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
-      var friend = this.props.friend;
+      var _this$props2 = this.props,
+          friend = _this$props2.friend,
+          currentUser = _this$props2.currentUser;
 
-      if (!friend) {
+      if (!friend || !currentUser) {
         return null;
       }
 
@@ -2738,8 +2792,8 @@ var FriendBillsIndex = /*#__PURE__*/function (_React$Component) {
       }, "You dont have any transactions with ".concat(friend.username, "!")) : this.getFriendBills().map(function (bill) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_friend_bills_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: bill.id,
-          clearBill: _this2.props.clearBill,
-          currentUser: _this2.props.currentUser,
+          clearBill: _this3.props.clearBill,
+          currentUser: _this3.props.currentUser,
           bill: bill
         });
       })));
@@ -3012,12 +3066,7 @@ var FriendsIndex = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, FriendsIndex);
 
     return _super.call(this, props);
-  } //   componentDidMount() {
-  //     this.props
-  //       .getAllRequests(this.props.currentUser.all_friends)
-  //       .then(() => this.props.getAllBills(this.props.currentUser.all_bills));
-  //   }
-
+  }
 
   _createClass(FriendsIndex, [{
     key: "render",
@@ -3371,6 +3420,7 @@ var mapSTP = function mapSTP(state) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_icons_fa__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-icons/fa */ "./node_modules/react-icons/fa/index.esm.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3395,6 +3445,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var FriendSearch = /*#__PURE__*/function (_React$Component) {
   _inherits(FriendSearch, _React$Component);
 
@@ -3412,12 +3463,10 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.renderErrors = _this.renderErrors.bind(_assertThisInitialized(_this));
+    _this.handleMouse = _this.handleMouse.bind(_assertThisInitialized(_this));
+    _this.closeMouse = _this.closeMouse.bind(_assertThisInitialized(_this));
     return _this;
-  } // componentDidMount() {
-  //     this.props.getAllRequests(this.props.currentUser.all_friends)
-  //         .then(() => this.props.getAllBills(this.props.currentUser.all_bills));
-  // }
-
+  }
 
   _createClass(FriendSearch, [{
     key: "update",
@@ -3429,6 +3478,24 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
           email: e.currentTarget.value
         });
       };
+    }
+  }, {
+    key: "handleMouse",
+    value: function handleMouse(e) {
+      e.preventDefault();
+      var info = document.getElementsByClassName('friendInfo')[0];
+      var classes = info.classList;
+
+      if (!classes.contains("infoOpen")) {
+        info.classList.add("infoOpen");
+      }
+    }
+  }, {
+    key: "closeMouse",
+    value: function closeMouse(e) {
+      e.preventDefault();
+      var info = document.getElementsByClassName("friendInfo")[0];
+      info.classList.remove("infoOpen");
     }
   }, {
     key: "handleSubmit",
@@ -3458,7 +3525,15 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
         className: "searchBox"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "searchHeader"
-      }, "Find a friend"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, "Find a friend", " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_icons_fa__WEBPACK_IMPORTED_MODULE_1__["FaQuestionCircle"], {
+        onMouseEnter: this.handleMouse,
+        onMouseLeave: this.closeMouse,
+        className: "questionCircle"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "friendInfo"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+        className: "friendInfoMsg"
+      }, "Search for registered users by their email. If you have made a new user and would like to test functionality, search for mike@mike.com or jen@jen.com.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "friendSearchForm",
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -4157,6 +4232,38 @@ var Splash = function Splash() {
 
 /***/ }),
 
+/***/ "./frontend/reducers/bill_errors_reducer.js":
+/*!**************************************************!*\
+  !*** ./frontend/reducers/bill_errors_reducer.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_bill_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/bill_actions */ "./frontend/actions/bill_actions.js");
+
+
+var billErrorsReducer = function billErrorsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _actions_bill_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_BILL_ERRORS"]:
+      return action.errors;
+
+    case _actions_bill_actions__WEBPACK_IMPORTED_MODULE_0__["CLEAR_BILL_ERRORS"]:
+      return [];
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (billErrorsReducer);
+
+/***/ }),
+
 /***/ "./frontend/reducers/bills_reducer.js":
 /*!********************************************!*\
   !*** ./frontend/reducers/bills_reducer.js ***!
@@ -4276,12 +4383,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_errors_reducer */ "./frontend/reducers/session_errors_reducer.js");
 /* harmony import */ var _request_errors_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./request_errors_reducer */ "./frontend/reducers/request_errors_reducer.js");
+/* harmony import */ var _bill_errors_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bill_errors_reducer */ "./frontend/reducers/bill_errors_reducer.js");
+
 
 
 
 var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  request: _request_errors_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  request: _request_errors_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  bill: _bill_errors_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
 

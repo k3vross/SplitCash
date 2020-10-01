@@ -1,8 +1,11 @@
 import { postBill, fetchBills, deleteBill, fetchBill, editBill } from '../util/bill_api_util';
+import { clearRequestErrors } from './friend_actions';
 
 export const RECEIVE_ALL_BILLS = 'RECEIVE_ALL_BILLS';
 export const RECEIVE_BILL = 'RECEIVE_BILL';
 export const REMOVE_BILL = 'REMOVE_BILL';
+export const RECEIVE_BILL_ERRORS = 'RECEIVE_BILL_ERRORS';
+export const CLEAR_BILL_ERRORS = "CLEAR_BILL_ERRORS";
 
 const receiveAllBills = bills => ({
     type: RECEIVE_ALL_BILLS,
@@ -19,9 +22,27 @@ const removeBill = (billId) => ({
     billId
 })
 
+const receiveBillErrors = (errors) => ({
+  type: RECEIVE_BILL_ERRORS,
+  errors,
+});
+
+export const clearBillErrors = () => {
+  return {
+    type: CLEAR_BILL_ERRORS,
+  };
+};
+
 export const createBill = bill => dispatch => {
     return postBill(bill)
-        .then(bill => dispatch(receiveBill(bill)))
+        .then(bill => {dispatch(receiveBill(bill))
+        }).fail((errors) => {
+            dispatch(receiveBillErrors(errors.responseJSON))
+        },
+        setTimeout(() => {
+            dispatch(clearRequestErrors());
+        }, 2000)
+        )
 }
 
 export const getBill = billId => dispatch => {

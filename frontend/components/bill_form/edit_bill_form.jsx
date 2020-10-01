@@ -42,7 +42,7 @@ class EditBillForm extends React.Component {
               <label className="editLabel">
                 {`Description `}
                 <input
-                  className="editField"
+                  className="editField1"
                   type="text"
                   onChange={this.update("description")}
                   value={this.state.description}
@@ -52,7 +52,7 @@ class EditBillForm extends React.Component {
                 {`Amount `}
                 $
                 <input
-                  className="editField"
+                  className="editField2"
                   type="float"
                   onChange={this.update("amount")}
                   value={this.state.newAmount}

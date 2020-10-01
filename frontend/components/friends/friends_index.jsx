@@ -6,12 +6,6 @@ class FriendsIndex extends React.Component {
     super(props);
   }
 
-//   componentDidMount() {
-//     this.props
-//       .getAllRequests(this.props.currentUser.all_friends)
-//       .then(() => this.props.getAllBills(this.props.currentUser.all_bills));
-//   }
-
   render() {
     const { currentUser } = this.props;
     if (!currentUser) {

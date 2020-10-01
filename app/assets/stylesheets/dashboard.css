@@ -166,6 +166,7 @@
     font-weight: 500;
     color: #333333;
     border-bottom: 1px solid #888888;
+    height: 41px;
     
 }
 
@@ -245,4 +246,45 @@
 
 .personalLinks {
     min-width: 200px;
+}
+
+.questionCircle {
+    margin-left: 50px;
+    color: white;
+}
+
+.questionCircle:hover {
+    cursor: pointer;
+    color: rgb(235, 233, 233);
+}
+
+.friendInfo {
+    display: none;
+    position: absolute;
+    margin-left: 175px;
+    width: 300px;
+    background-color: #1cc29f;
+    border-color: #15977b;
+    color: white;
+    text-shadow: none;
+    font-weight: 400;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.infoOpen {
+    display: block;
+}
+
+.timesCircle {
+    float: right;
+}
+
+.friendInfoMsg {
+    padding: 10px 10px 10px 10px;
+}
+
+.timesCircle:hover {
+    cursor: pointer;
+    color: rgb(235, 235, 235);
 }
