@@ -70,7 +70,7 @@ class FriendSearch extends React.Component {
             </p>
             <div className="friendInfo">
               <p className='friendInfoMsg'>
-                Search for registered users by their email. If you have made a new user and would like to test functionality, search for mike@mike.com or jen@jen.com.
+                Search for registered users by their email. If you have made a new user and would like to test functionality, search for joe@joe.com or jen@jen.com.
               </p>
             </div>
             <form className="friendSearchForm" onSubmit={this.handleSubmit}>

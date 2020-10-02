@@ -3533,7 +3533,7 @@ var FriendSearch = /*#__PURE__*/function (_React$Component) {
         className: "friendInfo"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "friendInfoMsg"
-      }, "Search for registered users by their email. If you have made a new user and would like to test functionality, search for mike@mike.com or jen@jen.com.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, "Search for registered users by their email. If you have made a new user and would like to test functionality, search for joe@joe.com or jen@jen.com.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "friendSearchForm",
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
