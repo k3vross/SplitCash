@@ -104,13 +104,21 @@ strong {
     padding: 12px;
     border: 1px solid #0f6b57;
     height: 50px;
-    position: absolute;
-    margin-left: 215px;
-    margin-top: 214px;
+    width: 100%;
     min-width: 148px;
+    margin-top: 10px;
 }
 
 .demoBtn:hover {
     background-color: #15977b;
     cursor: pointer;
+}
+
+.loginBtn {
+    width: 100%;
+}
+
+.formBtns {
+    display: flex;
+    flex-direction: column;
 }

@@ -81,12 +81,14 @@ class SessionForm extends React.Component {
                         </div>
                         <br/>
                         <br/>
-                        <button className='formSubmit'>{this.props.formType === 'Signup' ? <p>Sign me up!</p> : <p>Log me in!</p>}</button>
+                        <div className="formBtns">
+                            <button className='formSubmit loginBtn'>{this.props.formType === 'Signup' ? <p>Sign me up!</p> : <p>Log me in!</p>}</button>
+                            {this.props.formType === 'Login' ? <button className="demoBtn" onClick={this.loginDemo}>Demo login</button> : null}
+                        </div>
                         <div className='errors'>
                             {this.renderErrors()}
                         </div>
                     </form>
-                    {this.props.formType === 'Login' ? <button className="demoBtn" onClick={this.loginDemo}>Demo login</button> : null}
                 </div>
                 <br/>
             </div>
